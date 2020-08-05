@@ -99,7 +99,7 @@ namespace IBoxs.Core.App.Core
         {
             if (type == 1)
             {
-                Common.CqApi.SendPrivateMessage( micqq,  fromqq, msg);
+                Common.CqApi.GetGroupList(micqq);
             }
             return 1;
         }

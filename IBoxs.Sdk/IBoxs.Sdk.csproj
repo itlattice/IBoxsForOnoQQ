@@ -36,6 +36,9 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
@@ -48,9 +51,20 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Cqp\Core\CQP.cs" />
+    <Compile Include="Cqp\Core\Handle\FriendListHandle.cs" />
+    <Compile Include="Cqp\Core\Handle\GroupListHandle.cs" />
     <Compile Include="Cqp\Core\KerMsg.cs" />
     <Compile Include="Cqp\CqApi.cs" />
+    <Compile Include="Cqp\Enum\PermitType.cs" />
+    <Compile Include="Cqp\Enum\Sex.cs" />
+    <Compile Include="Cqp\Model\FriendsInfo.cs" />
+    <Compile Include="Cqp\Model\GroupInfo.cs" />
+    <Compile Include="Cqp\Model\GroupMemberInfo.cs" />
+    <Compile Include="Cqp\Model\QQInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
