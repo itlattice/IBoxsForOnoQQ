@@ -24,5 +24,9 @@ namespace IBoxs.Sdk.Cqp.Model
         /// 群主QQ
         /// </summary>
         public string owner { get; set; }
+        /// <summary>
+        /// 群等级
+        /// </summary>
+        public int GroupLavel { get; set; }
     }
 }

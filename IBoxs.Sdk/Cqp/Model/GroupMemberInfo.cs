@@ -15,11 +15,11 @@ namespace IBoxs.Sdk.Cqp.Model
         /// <summary>
         /// 获取或设置一个值, 指示成员所在群
         /// </summary>
-        public long GroupId { get; set; }
+        public string GroupId { get; set; }
         /// <summary>
         /// 获取或设置一个值, 指示成员QQ
         /// </summary>
-        public long QQId { get; set; }
+        public string QQId { get; set; }
         /// <summary>
         /// 获取或设置一个值, 指示成员昵称
         /// </summary>

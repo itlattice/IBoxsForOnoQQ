@@ -99,7 +99,7 @@ namespace IBoxs.Core.App.Core
         {
             if (type == 1)
             {
-                Common.CqApi.GetGroupList(micqq);
+                Common.CqApi.GetMemberList(micqq, "901224469");
             }
             return 1;
         }

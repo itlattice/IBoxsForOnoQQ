@@ -53,6 +53,7 @@
     <Compile Include="Cqp\Core\CQP.cs" />
     <Compile Include="Cqp\Core\Handle\FriendListHandle.cs" />
     <Compile Include="Cqp\Core\Handle\GroupListHandle.cs" />
+    <Compile Include="Cqp\Core\Handle\MemberListHandle.cs" />
     <Compile Include="Cqp\Core\KerMsg.cs" />
     <Compile Include="Cqp\CqApi.cs" />
     <Compile Include="Cqp\Enum\PermitType.cs" />

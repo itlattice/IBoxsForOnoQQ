@@ -27,6 +27,7 @@ namespace IBoxs.Sdk.Cqp.Core.Handle
                 temp.Name = rt.join[i].gn;
                 temp.owner = rt.join[i].owner.ToString();
                 temp.CurrentNumber = 0;
+                temp.GroupLavel = 0;
                 group.Add(temp);
             }
             return group;

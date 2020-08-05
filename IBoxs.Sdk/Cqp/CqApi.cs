@@ -251,14 +251,26 @@ namespace IBoxs.Sdk.Cqp
                     g.Name = gl[i].Name;
                     g.owner = gl[i].owner;
                     g.CurrentNumber = 0;
+                    g.GroupLavel = gl[i].GroupLavel;
                     return g;
                 }
             }
             return null;
         }
-
-
-
+        /// <summary>
+        /// 获取群成员列表
+        /// </summary>
+        /// <param name="robotQQ"></param>
+        /// <param name="group"></param>
+        /// <returns></returns>
+        public List<GroupMemberInfo> GetMemberList(string robotQQ, string group)
+        {
+            string json = Marshal.PtrToStringAnsi(CQP.Api_GetGroupMemberList(robotQQ,group)).Trim();
+            if (json.Length < 1)
+                return null;
+            json = Cqp.Core.KerMsg.FromUnicodeString(json);
+            return Core.Handle.MemberListHandle.getMemberList(json,group);
+        }
         #endregion
     }
 }

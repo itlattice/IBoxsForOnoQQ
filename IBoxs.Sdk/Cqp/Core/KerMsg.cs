@@ -37,5 +37,17 @@ namespace IBoxs.Sdk.Cqp.Core
             json = json.Replace("&nbsp;", " ");
             return json;
         }
+
+        /// <summary>
+        /// 时间戳转换为北京时间
+        /// </summary>
+        /// <param name="timeStamp">时间戳</param>
+        /// <returns></returns>
+        public static DateTime GetDateTime(long timeStamp)
+        {
+            DateTime dtStart = Convert.ToDateTime("1970-01-01 8:00:00");
+            DateTime d = dtStart.AddSeconds(timeStamp);
+            return d;
+        }
     }
 }
