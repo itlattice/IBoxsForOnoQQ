@@ -89,7 +89,6 @@ namespace IBoxs.Sdk.Cqp
 
         #endregion
         
-
         #region --Ono码--
         /// <summary>
         /// 获取酷Q "At某人" 代码
@@ -179,7 +178,6 @@ namespace IBoxs.Sdk.Cqp
         }
         #endregion
         
-
         #region --框架--
         /// <summary>
         /// 取登录QQ

@@ -101,6 +101,16 @@ namespace IBoxs.Core.App.Core
             {
                 Common.CqApi.GetMemberList(micqq, "901224469");
             }
+            int ret = 1;
+
+            switch (type)
+            {
+                case 12000:ret=Event.Event_AppMain.CqStartup();break;
+                case 12002:ret = Event.Event_AppMain.CqAppDisable();break;
+                case 12001:ret = Event.Event_AppMain.CqAppEnable();break;
+
+            }
+
             return 1;
         }
 
@@ -110,7 +120,7 @@ namespace IBoxs.Core.App.Core
         [DllExport(ExportName = "OQ_SetUp", CallingConvention = CallingConvention.StdCall)]
         private static void OQ_SetUp()
         {
-           
+            Event.Event_AppMain.CallMenu();
         }
 
         /// <summary>
