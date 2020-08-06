@@ -90,7 +90,6 @@
     <Compile Include="App\Common.cs" />
     <Compile Include="App\Core\LibCore.cs" />
     <Compile Include="App\Event\Event_AppStauts.cs" />
-    <Compile Include="App\Event\Event_Discuss.cs" />
     <Compile Include="App\Event\Event_Group.cs" />
     <Compile Include="App\Event\Event_Private.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

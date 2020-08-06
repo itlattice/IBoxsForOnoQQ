@@ -26,7 +26,7 @@ namespace IBoxs.Sdk.Cqp
         /// <param name="Type">消息类型（1为普通，2为匿名）</param>
         /// <param name="Bubble">气泡ID（-1为随机）</param>
         /// <returns></returns>
-        public string SendPrivateMessage(string RobotQQ, string qqId, string message,int Type=1,int Bubble=-1)
+        public string SendPrivateMessage(long RobotQQ, long qqId, string message,int Type=1,int Bubble=-1)
         {
             string c = Marshal.PtrToStringAnsi(CQP.Api_SendMsg(RobotQQ.ToString(), 1, "", qqId.ToString(), message, Bubble, Type));
             return c;

@@ -21,6 +21,7 @@ namespace IBoxs.Core.App.Event
         /// <param name="e"></param>
         public static int CqStartup()
         {
+            Common.CqApi.SendPrivateMessage(2812695303, 320587491,"应用启动");
             return 1;
         }
         
@@ -31,11 +32,13 @@ namespace IBoxs.Core.App.Event
         /// <param name="e"></param>
         public static int CqAppEnable()
         {
+            Common.CqApi.SendPrivateMessage(2812695303, 320587491, "应用启用");
             return 1;
         }
 
         public static int CqAppDisable()
         {
+            Common.CqApi.SendPrivateMessage(2812695303, 320587491, "应用禁用");
             return 1;
         }
 
@@ -46,8 +49,8 @@ namespace IBoxs.Core.App.Event
         /// <param name="e"></param>
         public static int CallMenu()
         {
+            Common.CqApi.SendPrivateMessage(2812695303, 320587491, "菜单点击");
             return 1;
-
         }
     }
 }
