@@ -57,6 +57,8 @@
     <Compile Include="Cqp\Core\KerMsg.cs" />
     <Compile Include="Cqp\CqApi.cs" />
     <Compile Include="Cqp\Enum\PermitType.cs" />
+    <Compile Include="Cqp\Enum\RequestType.cs" />
+    <Compile Include="Cqp\Enum\ResponseType.cs" />
     <Compile Include="Cqp\Enum\Sex.cs" />
     <Compile Include="Cqp\EventArgs\CqAddFriendRequestEventArgs.cs" />
     <Compile Include="Cqp\EventArgs\CqAddGroupRequestEventArgs.cs" />

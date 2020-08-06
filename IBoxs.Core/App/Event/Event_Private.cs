@@ -17,18 +17,14 @@ namespace IBoxs.Core.App.Event
         /// <param name="e"></param>
         public static int ReceiveFriendMessage(CqPrivateMessageEventArgs e)
         {
-            Common.CqApi.SendPrivateMessage(e.RobotQQ, e.FromQQ, e.Message);
             return 1;
         }
-
         /// <summary>
         /// 收到好友添加请求
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public static int ReceiveFriendAddRequest(CqAddFriendRequestEventArgs e)
-        {
-            Common.CqApi.SendPrivateMessage(e.RobotQQ, 320587491, "收到好友添加请求"+e.FromQQ.ToString());
+        public static int ReceiveFriendAddRequest(CqAddFriendRequestEventArgs e) { 
             return 1;
         }
     }

@@ -23,7 +23,7 @@ namespace IBoxs.Sdk.Cqp.Core.Handle
                 {
                     return null;
                 }
-                temp.Id = rt.join[i].gc.ToString();
+                temp.Id = rt.join[i].gc;
                 temp.Name = rt.join[i].gn;
                 temp.owner = rt.join[i].owner.ToString();
                 temp.CurrentNumber = 0;

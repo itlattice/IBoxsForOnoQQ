@@ -14,7 +14,7 @@ namespace IBoxs.Sdk.Cqp.EventArgs
 		/// <summary>
 		/// 获取或设置一个值, 表示当前事件所产生消息的唯一编号, 可用于撤回消息
 		/// </summary>
-		public int MsgId { get; set; }
+		public string MsgId { get; set; }
         /// <summary>
         /// 机器人QQ
         /// </summary>
@@ -22,7 +22,7 @@ namespace IBoxs.Sdk.Cqp.EventArgs
         /// <summary>
         /// 消息序号
         /// </summary>
-        public int MsgNum { get; set; }
+        public string MsgNum { get; set; }
 		/// <summary>
 		/// 获取当前消息的来源QQ号
 		/// </summary>
@@ -45,7 +45,7 @@ namespace IBoxs.Sdk.Cqp.EventArgs
 		/// <param name="msgId">消息ID</param>
 		/// <param name="fromQQ">来源QQ</param>
 		/// <param name="msg">消息内容</param>
-		public CqGroupPrivateMessageEventArgs (int msgId,int msgNum,long robotQQ,long fromGroup, long fromQQ, string msg)
+		public CqGroupPrivateMessageEventArgs (string msgId,string msgNum,long robotQQ,long fromGroup, long fromQQ, string msg)
 		{
 			this.MsgId = msgId;
             this.RobotQQ = robotQQ;

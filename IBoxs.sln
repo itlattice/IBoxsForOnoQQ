@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSharp开发SDK", "IBoxs.Co
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IBoxs.Sdk", "IBoxs.Sdk\IBoxs.Sdk.csproj", "{797EAEBC-4D5B-4EEF-87F4-A508FDA2CB6A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IBoxs.Tool", "..\IBoxs\IBoxs.Tool\IBoxs.Tool.csproj", "{9DB94CBF-6843-4EA3-9241-769124416FE9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IBoxs.Tool", "IBoxs.Tool\IBoxs.Tool.csproj", "{9DB94CBF-6843-4EA3-9241-769124416FE9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

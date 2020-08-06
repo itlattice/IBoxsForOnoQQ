@@ -9,6 +9,7 @@ using System.IO;
 using IBoxs.Core;
 using System.Windows.Forms;
 using IBoxs.Tool;
+using System.Data.SQLite;
 
 namespace IBoxs.Core.App.Event
 {
@@ -21,10 +22,18 @@ namespace IBoxs.Core.App.Event
         /// <param name="e"></param>
         public static int CqStartup()
         {
-            Common.CqApi.SendPrivateMessage(2812695303, 320587491,"应用启动");
             return 1;
         }
-        
+
+        private static void Application_ThreadException(object sender, ThreadExceptionEventArgs e)
+        {
+            
+        }
+        private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+           
+        }
+
         /// <summary>
         /// 应用被启用
         /// </summary>
@@ -32,16 +41,13 @@ namespace IBoxs.Core.App.Event
         /// <param name="e"></param>
         public static int CqAppEnable()
         {
-            Common.CqApi.SendPrivateMessage(2812695303, 320587491, "应用启用");
             return 1;
         }
-
+        
         public static int CqAppDisable()
         {
-            Common.CqApi.SendPrivateMessage(2812695303, 320587491, "应用禁用");
             return 1;
         }
-
         /// <summary>
         /// 菜单
         /// </summary>
@@ -49,7 +55,6 @@ namespace IBoxs.Core.App.Event
         /// <param name="e"></param>
         public static int CallMenu()
         {
-            Common.CqApi.SendPrivateMessage(2812695303, 320587491, "菜单点击");
             return 1;
         }
     }

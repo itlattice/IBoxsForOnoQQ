@@ -10,7 +10,7 @@ namespace IBoxs.Sdk.Cqp.Core.Handle
 {
     class MemberListHandle
     {
-        public static List<Model.GroupMemberInfo> getMemberList(string json,string group)
+        public static List<Model.GroupMemberInfo> getMemberList(string json,long group)
         {
             Root rt = JsonConvert.DeserializeObject<Root>(json);
             if (rt.errcode != 0)
@@ -68,7 +68,7 @@ namespace IBoxs.Sdk.Cqp.Core.Handle
             /// <summary>
             /// QQ号
             /// </summary>
-            public string uin { get; set; }
+            public long uin { get; set; }
             /// <summary>
             /// 
             /// </summary>

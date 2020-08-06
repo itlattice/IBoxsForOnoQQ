@@ -36,11 +36,11 @@ namespace IBoxs.Core.App.Core
         [DllExport(ExportName = "OQ_Create", CallingConvention = CallingConvention.StdCall)]
         private static string OQ_Create()
         {
-            Common.AppName = "CSharp开发SDK";
+            Common.AppName = "抢购机器人";
             Common.AppVersion = "1.0.0";
             Common.Author = "IT格子";
             Common.AppDirectory = Application.StartupPath + @"\Config\" + Common.AppName;
-            Common.Description = "插件说明";
+            Common.Description = "抢购机器人";
             Common.skey = "8956RTEWDFG3216598WERDF3";
             Common.SDK = "S3";
             Initialize();
@@ -98,73 +98,80 @@ namespace IBoxs.Core.App.Core
         [DllExport(ExportName = "OQ_Event", CallingConvention = CallingConvention.StdCall)]
         public static int OQ_Event(string micqq, int type, int lowtype, string from, string fromqq, string bqq, string msg, string MsgNum, string msgID, string teamsg, string json, int note)
         {
-            if (type == 1)
+            try
             {
-               // Common.CqApi.GetMemberList(micqq, "901224469");
-            }
-            int ret = 1;
+                if (type == 1)
+                {
+                    // Common.CqApi.GetMemberList(micqq, "901224469");
+                }
+                int ret = 1;
 
-            switch (type)
-            {
-                case 12000:ret=Event.Event_AppMain.CqStartup();break;
-                case 12001:ret = Event.Event_AppMain.CqAppEnable();break;
-                case 12002:ret = Event.Event_AppMain.CqAppDisable();break;
-            }
-            if (type < 0)  //未定义事件
-            {
+                switch (type)
+                {
+                    case 12000: ret = Event.Event_AppMain.CqStartup(); break;
+                    case 12001: ret = Event.Event_AppMain.CqAppEnable(); break;
+                    case 12002: ret = Event.Event_AppMain.CqAppDisable(); break;
+                }
 
-            }
-            else if (type == 1)  //好友消息
-            {
-                CqPrivateMessageEventArgs e = new CqPrivateMessageEventArgs(Convert.ToInt32(msgID), Convert.ToInt32(MsgNum),Convert.ToInt64(micqq), Convert.ToInt64(from), msg);
-                ret = Event.Event_Private.ReceiveFriendMessage(e);
-            }
-            else if (type == 2)  //群消息
-            {
-                CqGroupMessageEventArgs e = new CqGroupMessageEventArgs("群聊消息", Convert.ToInt32(msgID), Convert.ToInt32(MsgNum), Convert.ToInt64(micqq), Convert.ToInt64(from), Convert.ToInt64(fromqq), msg);
-                ret = Event.Event_Group.ReceiveGroupMessage(e);
-            }
-            else if (type == 4)  //群私聊消息
-            {
-                CqGroupPrivateMessageEventArgs e = new CqGroupPrivateMessageEventArgs(Convert.ToInt32(msgID), Convert.ToInt32(MsgNum), Convert.ToInt64(micqq), Convert.ToInt64(from), Convert.ToInt64(fromqq), msg);
-                ret = Event.Event_Group.ReceiveGroupPrivateMessage(e);
-            }
-            else if (type == 101)  //收到好友申请
-            {
-                CqAddFriendRequestEventArgs e = new CqAddFriendRequestEventArgs(DateTime.Now, Convert.ToInt64(micqq), Convert.ToInt64(from), msg, teamsg);
-                ret = Event.Event_Private.ReceiveFriendAddRequest(e);
-            }
-            else if (type == 202)  //群成员被移除
-            {
-                CqGroupMemberDecreaseEventArgs e = new CqGroupMemberDecreaseEventArgs(DateTime.Now, Convert.ToInt64(from), Convert.ToInt64(micqq), Convert.ToInt64(fromqq), Convert.ToInt64(bqq));
-                ret = Event.Event_Group.ReceiveGroupMemberRemove(e);
-            }
-            else if (type == 212)   //群成员主动进群
-            {
-                CqGroupMemberIncreaseEventArgs e = new CqGroupMemberIncreaseEventArgs(DateTime.Now, Convert.ToInt64(micqq), Convert.ToInt64(from), Convert.ToInt64(fromqq), Convert.ToInt64(bqq));
-                ret = Event.Event_Group.ReceiveGroupMemberPass(e);
-            }
-            else if (type == 201)  //群成员退出群
-            {
-                CqGroupMemberDecreaseEventArgs e = new CqGroupMemberDecreaseEventArgs(DateTime.Now, Convert.ToInt64(from), Convert.ToInt64(micqq), Convert.ToInt64(fromqq), Convert.ToInt64(bqq));
-                ret = Event.Event_Group.ReceiveGroupMemberLeave(e);
-            }
-            else if (type == 213)  //有人申请进群
-            {
-                CqAddGroupRequestEventArgs e = new CqAddGroupRequestEventArgs(DateTime.Now, Convert.ToInt64(from), Convert.ToInt64(micqq), Convert.ToInt64(fromqq), msg, teamsg);
-                ret = Event.Event_Group.ReceiveAddGroupRequest(e);
-            }
-            else if (type == 214)
-            {
-                CqAddGroupRequestEventArgs e = new CqAddGroupRequestEventArgs(DateTime.Now, Convert.ToInt64(from), Convert.ToInt64(micqq), Convert.ToInt64(fromqq), msg, teamsg);
-                ret = Event.Event_Group.ReceiveAddGroupBeInvitee(e);
-            }
-            else if (type == 219)  //群成员被邀请进群
-            {
-                CqGroupMemberIncreaseEventArgs e = new CqGroupMemberIncreaseEventArgs(DateTime.Now, Convert.ToInt64(micqq), Convert.ToInt64(from), Convert.ToInt64(fromqq), Convert.ToInt64(bqq));
-                ret = Event.Event_Group.ReceiveGroupMemberBeInvitee(e);
-            }
+                if (type < 0)  //未定义事件
+                {
 
+                }
+                else if (type == 1)  //好友消息
+                {
+                    CqPrivateMessageEventArgs e = new CqPrivateMessageEventArgs(msgID, MsgNum, Convert.ToInt64(micqq), Convert.ToInt64(from), msg);
+                    ret = Event.Event_Private.ReceiveFriendMessage(e);
+                }
+                else if (type == 2)  //群消息
+                {
+                    CqGroupMessageEventArgs e = new CqGroupMessageEventArgs("群聊消息", msgID, MsgNum, Convert.ToInt64(micqq), Convert.ToInt64(from), Convert.ToInt64(fromqq), msg);
+                    ret = Event.Event_Group.ReceiveGroupMessage(e);
+                }
+                else if (type == 4)  //群私聊消息
+                {
+                    CqGroupPrivateMessageEventArgs e = new CqGroupPrivateMessageEventArgs(msgID, MsgNum, Convert.ToInt64(micqq), Convert.ToInt64(from), Convert.ToInt64(fromqq), msg);
+                    ret = Event.Event_Group.ReceiveGroupPrivateMessage(e);
+                }
+                else if (type == 101)  //收到好友申请
+                {
+                    CqAddFriendRequestEventArgs e = new CqAddFriendRequestEventArgs(DateTime.Now, Convert.ToInt64(micqq), Convert.ToInt64(from), msg, teamsg);
+                    ret = Event.Event_Private.ReceiveFriendAddRequest(e);
+                }
+                else if (type == 202)  //群成员被移除
+                {
+                    CqGroupMemberDecreaseEventArgs e = new CqGroupMemberDecreaseEventArgs(DateTime.Now, Convert.ToInt64(from), Convert.ToInt64(micqq), Convert.ToInt64(fromqq), Convert.ToInt64(bqq));
+                    ret = Event.Event_Group.ReceiveGroupMemberRemove(e);
+                }
+                else if (type == 212)   //群成员主动进群
+                {
+                    CqGroupMemberIncreaseEventArgs e = new CqGroupMemberIncreaseEventArgs(DateTime.Now, Convert.ToInt64(micqq), Convert.ToInt64(from), Convert.ToInt64(fromqq), Convert.ToInt64(bqq));
+                    ret = Event.Event_Group.ReceiveGroupMemberPass(e);
+                }
+                else if (type == 201)  //群成员退出群
+                {
+                    CqGroupMemberDecreaseEventArgs e = new CqGroupMemberDecreaseEventArgs(DateTime.Now, Convert.ToInt64(from), Convert.ToInt64(micqq), Convert.ToInt64(fromqq), Convert.ToInt64(bqq));
+                    ret = Event.Event_Group.ReceiveGroupMemberLeave(e);
+                }
+                else if (type == 213)  //有人申请进群
+                {
+                    CqAddGroupRequestEventArgs e = new CqAddGroupRequestEventArgs(DateTime.Now, Convert.ToInt64(from), Convert.ToInt64(micqq), Convert.ToInt64(fromqq), msg, teamsg);
+                    ret = Event.Event_Group.ReceiveAddGroupRequest(e);
+                }
+                else if (type == 214)
+                {
+                    CqAddGroupRequestEventArgs e = new CqAddGroupRequestEventArgs(DateTime.Now, Convert.ToInt64(from), Convert.ToInt64(micqq), Convert.ToInt64(fromqq), msg, teamsg);
+                    ret = Event.Event_Group.ReceiveAddGroupBeInvitee(e);
+                }
+                else if (type == 219)  //群成员被邀请进群
+                {
+                    CqGroupMemberIncreaseEventArgs e = new CqGroupMemberIncreaseEventArgs(DateTime.Now, Convert.ToInt64(micqq), Convert.ToInt64(from), Convert.ToInt64(fromqq), Convert.ToInt64(bqq));
+                    ret = Event.Event_Group.ReceiveGroupMemberBeInvitee(e);
+                }
+            }
+            catch (Exception ex)
+            {
+                ClassEs.En(ex);
+            }
             return 1;
         }
 

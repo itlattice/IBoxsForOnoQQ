@@ -11,7 +11,7 @@ namespace IBoxs.Sdk.Cqp.Model
         /// <summary>
 		/// 群号码
 		/// </summary>
-		public string Id { get; set; }
+		public long Id { get; set; }
         /// <summary>
         /// 群名字
         /// </summary>
