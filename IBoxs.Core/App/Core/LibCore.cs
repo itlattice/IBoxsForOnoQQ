@@ -108,6 +108,7 @@ namespace IBoxs.Core.App.Core
             {
                 case 12000:ret=Event.Event_AppMain.CqStartup();break;
                 case 12001:ret = Event.Event_AppMain.CqAppEnable();break;
+                case 12002:ret = Event.Event_AppMain.CqAppDisable();break;
             }
             if (type < 0)  //未定义事件
             {
