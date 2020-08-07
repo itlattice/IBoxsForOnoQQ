@@ -5,12 +5,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using IBoxs.Sdk.Cqp.Model;
+using System.Runtime.InteropServices;
 
 namespace IBoxs.Sdk.Cqp.Core.Handle
 {
     class GroupListHandle
     {
-        public static List<Model.GroupInfo> getGroupList(string json)
+        public static List<Model.GroupInfo> getGroupList(string json,long robotQQ)
         {
             Root rt = JsonConvert.DeserializeObject<Root>(json);
             if (rt.errcode != 0)
@@ -26,7 +27,16 @@ namespace IBoxs.Sdk.Cqp.Core.Handle
                 temp.Id = rt.join[i].gc;
                 temp.Name = rt.join[i].gn;
                 temp.owner = rt.join[i].owner.ToString();
-                temp.CurrentNumber = 0;
+
+                string js = Marshal.PtrToStringAnsi(CQP.Api_GetGroupMemberList(robotQQ.ToString(), temp.Id.ToString())).Trim();
+                if (js.Length < 1)
+                    return null;
+                js = Cqp.Core.KerMsg.FromUnicodeString(js);
+                int max = 0;
+                int cur = 0;
+                Core.Handle.MemberListHandle.GetGroupCur(js, out max, out cur);
+                temp.CurrentNumber = cur;
+                temp.MaximumNumber = max;
                 temp.GroupLavel = 0;
                 group.Add(temp);
             }

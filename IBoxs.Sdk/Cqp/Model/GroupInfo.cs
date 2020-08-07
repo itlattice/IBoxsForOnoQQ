@@ -28,5 +28,9 @@ namespace IBoxs.Sdk.Cqp.Model
         /// 群等级
         /// </summary>
         public int GroupLavel { get; set; }
+        /// <summary>
+        /// 群最大人数
+        /// </summary>
+        public int MaximumNumber { get; set; }
     }
 }

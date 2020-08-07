@@ -24,16 +24,7 @@ namespace IBoxs.Core.App.Event
         {
             return 1;
         }
-
-        private static void Application_ThreadException(object sender, ThreadExceptionEventArgs e)
-        {
-            
-        }
-        private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
-        {
-           
-        }
-
+        
         /// <summary>
         /// 应用被启用
         /// </summary>
@@ -48,6 +39,7 @@ namespace IBoxs.Core.App.Event
         {
             return 1;
         }
+        
         /// <summary>
         /// 菜单
         /// </summary>

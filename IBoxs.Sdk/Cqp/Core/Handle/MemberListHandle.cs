@@ -5,11 +5,27 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using IBoxs.Sdk.Cqp.Model;
+using System.Windows.Forms;
 
 namespace IBoxs.Sdk.Cqp.Core.Handle
 {
     class MemberListHandle
     {
+        /// <summary>
+        /// 获取群最大人数和当前人数
+        /// </summary>
+        /// <param name="json"></param>
+        public static void GetGroupCur(string json,out int max,out int cur)
+        {
+            max = 0;
+            cur = 0;
+            Root rt = JsonConvert.DeserializeObject<Root>(json);
+            if (rt.errcode != 0)
+                return;
+            max = rt.max_count;
+            cur = rt.search_count;
+        }
+
         public static List<Model.GroupMemberInfo> getMemberList(string json,long group)
         {
             Root rt = JsonConvert.DeserializeObject<Root>(json);
@@ -43,7 +59,13 @@ namespace IBoxs.Sdk.Cqp.Core.Handle
                 else
                     temp.PermitType = Enum.PermitType.None;
                 temp.QQId = rt.mems[i].uin;
-                temp.Sex = Enum.Sex.Man;
+                int s = rt.mems[i].g;
+                if (s == 0)
+                    temp.Sex = Enum.Sex.Man;
+                else if (s == 1)
+                    temp.Sex = Enum.Sex.Woman;
+                else
+                    temp.Sex = Enum.Sex.Unknown;
                 temp.SpecialTitle = "";
                 temp.SpecialTitleDurationTime = DateTime.Now;
                 member.Add(temp);

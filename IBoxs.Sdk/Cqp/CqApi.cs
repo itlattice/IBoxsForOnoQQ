@@ -26,7 +26,7 @@ namespace IBoxs.Sdk.Cqp
         /// <param name="Type">消息类型（1为普通，2为匿名）</param>
         /// <param name="Bubble">气泡ID（-1为随机）</param>
         /// <returns></returns>
-        public string SendPrivateMessage(long RobotQQ, long qqId, string message,int Type=1,int Bubble=-1)
+        public string SendPrivateMessage(long RobotQQ, long qqId, string message, int Type = 1, int Bubble = -1)
         {
             string c = Marshal.PtrToStringAnsi(CQP.Api_SendMsg(RobotQQ.ToString(), 1, "", qqId.ToString(), message, Bubble, Type));
             return c;
@@ -40,7 +40,7 @@ namespace IBoxs.Sdk.Cqp
         /// <returns>失败返回负值, 成功返回消息 Id</returns>
         public string SendGroupMessage(long RobotQQ, long groupId, string message, int Type = 1, int Bubble = -1)
         {
-            string c = Marshal.PtrToStringAnsi(CQP.Api_SendMsg(RobotQQ.ToString(), 2,groupId.ToString(), String.Empty, message, Bubble, Type));
+            string c = Marshal.PtrToStringAnsi(CQP.Api_SendMsg(RobotQQ.ToString(), 2, groupId.ToString(), String.Empty, message, Bubble, Type));
             return c;
         }
 
@@ -72,13 +72,13 @@ namespace IBoxs.Sdk.Cqp
             {
                 count = 10;
             }
-            for(int i=0;i<count;i++)
+            for (int i = 0; i < count; i++)
                 Marshal.PtrToStringAnsi(CQP.Api_UpVote(RobotQQ, qqId));
             return String.Empty;
         }
-        
+
         #endregion
-        
+
         #region --Ono码--
         /// <summary>
         /// 获取酷Q "At某人" 代码
@@ -94,7 +94,7 @@ namespace IBoxs.Sdk.Cqp
             }
             else
             {
-                return string.Format("[@{0}]",qqId.ToString());
+                return string.Format("[@{0}]", qqId.ToString());
             }
         }
         /// <summary>
@@ -167,7 +167,7 @@ namespace IBoxs.Sdk.Cqp
             return string.Format("[pic={0}]", CqCode_Trope(filePath, true));
         }
         #endregion
-        
+
         #region --框架--
         /// <summary>
         /// 取登录QQ
@@ -178,7 +178,7 @@ namespace IBoxs.Sdk.Cqp
             try
             {
                 string qq = Marshal.PtrToStringAnsi(CQP.Api_GetQQList());
-                if(qq==null)
+                if (qq == null)
                     return (new List<string>());
                 if (qq.Length < 1)
                     return (new List<string>());
@@ -212,7 +212,7 @@ namespace IBoxs.Sdk.Cqp
         /// <returns></returns>
         public List<FriendInfo> GetFriendsList(string robotQQ)
         {
-            string json= Marshal.PtrToStringAnsi(CQP.Api_GetFriendList(robotQQ));
+            string json = Marshal.PtrToStringAnsi(CQP.Api_GetFriendList(robotQQ));
             json = Cqp.Core.KerMsg.FromUnicodeString(json);
             return Core.Handle.FriendListHandle.getFriends(json);
         }
@@ -224,8 +224,39 @@ namespace IBoxs.Sdk.Cqp
         public List<GroupInfo> GetGroupList(long robotQQ)
         {
             string json = Marshal.PtrToStringAnsi(CQP.Api_GetGroupList(robotQQ.ToString()));
+            if (json == null || json == string.Empty)
+                return null;
             json = Cqp.Core.KerMsg.FromUnicodeString(json);
-            return Core.Handle.GroupListHandle.getGroupList(json);
+            return Core.Handle.GroupListHandle.getGroupList(json, robotQQ);
+        }
+        /// <summary>
+        /// 获取图片
+        /// </summary>
+        /// <param name="robotQQ"></param>
+        /// <param name="guid"></param>
+        /// <param name="type">1 群 讨论组 2临时会话和好友</param>
+        /// <param name="from">图片所属对应的群号和好友QQ</param>
+        /// <returns></returns>
+        public string ReceiveImage(long robotQQ,string guid,int type,long from)
+        {
+            string url= Marshal.PtrToStringAnsi(CQP.Api_GetPicLink(robotQQ.ToString(),type,from.ToString(),guid));
+            string data = Application.StartupPath + @"\Data\" +IBoxs.Tool.Tools.ToolsBox.GetTimestamp(DateTime.Now).ToString()+ IBoxs.Tool.Tools.ToolsBox.GetRandomString(5) + ".jpg";
+            Core.KerMsg.HttpDownloadFile(url, data);
+            return data;
+        }
+        /// <summary>
+        /// 获取QQ性别
+        /// </summary>
+        /// <param name="qq"></param>
+        /// <returns></returns>
+        public Enum.Sex GetQQGender(long robotQQ,long group, long qq)
+        {
+            GroupMemberInfo gm = new GroupMemberInfo();
+            gm = GetMemberInfo(robotQQ, group, qq);
+            if (gm == null)
+                return Enum.Sex.Unknown;
+            else
+                return gm.Sex;
         }
         /// <summary>
         /// 获取群信息
@@ -247,8 +278,16 @@ namespace IBoxs.Sdk.Cqp
                     g.Id = gl[i].Id;
                     g.Name = gl[i].Name;
                     g.owner = gl[i].owner;
-                    g.CurrentNumber = 0;
                     g.GroupLavel = gl[i].GroupLavel;
+                    string json = Marshal.PtrToStringAnsi(CQP.Api_GetGroupMemberList(robotQQ.ToString(), group.ToString())).Trim();
+                    if (json.Length < 1)
+                        return null;
+                    json = Cqp.Core.KerMsg.FromUnicodeString(json);
+                    int max = 0;
+                    int cur = 0;
+                    Core.Handle.MemberListHandle.GetGroupCur(json,out max,out cur);
+                    g.CurrentNumber = cur;
+                    g.MaximumNumber = max;
                     return g;
                 }
             }
@@ -269,6 +308,8 @@ namespace IBoxs.Sdk.Cqp
             return Core.Handle.MemberListHandle.getMemberList(json,group);
         }
         #endregion
+
+        #region --接口--
         /// <summary>
         /// 置群成员禁言
         /// </summary>
@@ -369,5 +410,7 @@ namespace IBoxs.Sdk.Cqp
             CQP.Api_QuitGroup(robotQQ.ToString(), group.ToString());
             return 1;
         }
+
+        #endregion
     }
 }

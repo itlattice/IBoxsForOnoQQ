@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Data;
 using System.Threading;
 using IBoxs.Sdk.Cqp.EventArgs;
+using System.Windows.Forms;
 
 namespace IBoxs.Core.App.Event
 {
@@ -20,7 +21,7 @@ namespace IBoxs.Core.App.Event
         {
             return 1;
         }
-    
+        
         /// <summary>
         /// 群成员增加：被邀入群
         /// </summary>
@@ -46,7 +47,7 @@ namespace IBoxs.Core.App.Event
         /// <param name="e"></param>
         public static int ReceiveGroupMemberPass(CqGroupMemberIncreaseEventArgs e)
         {
-                return 1;
+            return 1;
         }
 
         /// <summary>
@@ -55,7 +56,6 @@ namespace IBoxs.Core.App.Event
         /// <param name="e"></param>
         public static int ReceiveGroupMemberRemove(CqGroupMemberDecreaseEventArgs e)
         {
-
             return 1;
         }
 

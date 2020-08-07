@@ -12,7 +12,6 @@ namespace IBoxs.Core.App
 	/// </summary>
 	public static class Common
     {
-
         /// <summary>
         /// 获取应用名称
         /// </summary>
