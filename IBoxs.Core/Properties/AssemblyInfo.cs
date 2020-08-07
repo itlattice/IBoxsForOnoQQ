@@ -5,8 +5,8 @@ using System.Runtime.InteropServices;
 // 有关程序集的一般信息由以下
 // 控制。更改这些特性值可修改
 // 与程序集关联的信息。
-[assembly: AssemblyTitle("IBoxs酷Q开发框架")]
-[assembly: AssemblyDescription("IBoxs酷Q开发框架（基于Native.SDK）")]
+[assembly: AssemblyTitle("IBoxsOno开发框架")]
+[assembly: AssemblyDescription("IBoxsOno开发框架")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("IT格子吧（https://www.itgz8.com）")]
 [assembly: AssemblyProduct("")]
