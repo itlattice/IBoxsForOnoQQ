@@ -12,6 +12,10 @@ namespace IBoxs.Sdk.Cqp.Core.Handle
     {
         public static List<Model.FriendInfo> getFriends(string json)
         {
+            if (json.Length < 5)
+                return null;
+            if (!json.Contains("{\"ec\":0,\""))
+                return null;
             json = json.Replace("\"0\":", "").Replace("}}}", "}}");
             Root rt = JsonConvert.DeserializeObject<Root>(json);
             if (rt.errcode != 0)

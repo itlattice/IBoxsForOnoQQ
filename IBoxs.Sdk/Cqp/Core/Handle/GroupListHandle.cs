@@ -13,6 +13,9 @@ namespace IBoxs.Sdk.Cqp.Core.Handle
     {
         public static List<Model.GroupInfo> getGroupList(string json,long robotQQ)
         {
+            if (!json.Contains("{\"ec\":0,\""))
+                return null;
+            json = json.Replace("manage", "join");
             Root rt = JsonConvert.DeserializeObject<Root>(json);
             if (rt.errcode != 0)
                 return null;

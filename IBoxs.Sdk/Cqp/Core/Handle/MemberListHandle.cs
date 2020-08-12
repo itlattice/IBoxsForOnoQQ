@@ -28,6 +28,8 @@ namespace IBoxs.Sdk.Cqp.Core.Handle
 
         public static List<Model.GroupMemberInfo> getMemberList(string json,long group)
         {
+            if (!json.Contains("{\"ec\":0,\""))
+                return null;
             Root rt = JsonConvert.DeserializeObject<Root>(json);
             if (rt.errcode != 0)
                 return null;
