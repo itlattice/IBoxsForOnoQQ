@@ -15,15 +15,16 @@ namespace IBoxs.Sdk.Cqp.Core.Handle
         /// 获取群最大人数和当前人数
         /// </summary>
         /// <param name="json"></param>
-        public static void GetGroupCur(string json,out int max,out int cur)
+        public static bool GetGroupCur(string json,out int max,out int cur)
         {
             max = 0;
             cur = 0;
             Root rt = JsonConvert.DeserializeObject<Root>(json);
             if (rt.errcode != 0)
-                return;
+                return false;
             max = rt.max_count;
             cur = rt.search_count;
+            return true;
         }
 
         public static List<Model.GroupMemberInfo> getMemberList(string json,long group)

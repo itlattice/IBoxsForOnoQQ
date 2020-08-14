@@ -190,7 +190,7 @@ namespace IBoxs.Sdk.Cqp
                 }
                 return qqlist;
             }
-            catch (Exception ex)
+            catch
             {
                 return (new List<string>());
             }
@@ -228,6 +228,23 @@ namespace IBoxs.Sdk.Cqp
                 return null;
             json = Cqp.Core.KerMsg.FromUnicodeString(json);
             return Core.Handle.GroupListHandle.getGroupList(json, robotQQ);
+        }
+        /// <summary>
+        /// 获取群成员人数与最大人数
+        /// </summary>
+        /// <param name="robotQQ"></param>
+        /// <param name="group"></param>
+        /// <returns></returns>
+        public bool GetGroupMemberCount(long robotQQ, long group, out int memberCount, out int maxCount)
+        {
+            memberCount = 0;
+            maxCount = 0;
+            string json = Marshal.PtrToStringAnsi(CQP.Api_GetGroupMemberList(robotQQ.ToString(), group.ToString())).Trim();
+            if (json.Length < 1)
+                return false;
+            json = Cqp.Core.KerMsg.FromUnicodeString(json);
+            bool success = Core.Handle.MemberListHandle.GetGroupCur(json, out maxCount, out memberCount);
+            return success;
         }
         /// <summary>
         /// 获取图片
@@ -279,15 +296,6 @@ namespace IBoxs.Sdk.Cqp
                     g.Name = gl[i].Name;
                     g.owner = gl[i].owner;
                     g.GroupLavel = gl[i].GroupLavel;
-                    string json = Marshal.PtrToStringAnsi(CQP.Api_GetGroupMemberList(robotQQ.ToString(), group.ToString())).Trim();
-                    if (json.Length < 1)
-                        return null;
-                    json = Cqp.Core.KerMsg.FromUnicodeString(json);
-                    int max = 0;
-                    int cur = 0;
-                    Core.Handle.MemberListHandle.GetGroupCur(json,out max,out cur);
-                    g.CurrentNumber = cur;
-                    g.MaximumNumber = max;
                     return g;
                 }
             }
