@@ -17,7 +17,6 @@ namespace IBoxs.Core.App.Event
         /// <param name="e"></param>
         public static int ReceiveFriendMessage(CqPrivateMessageEventArgs e)
         {
-            Common.CqApi.GetMemberList_B(e.RobotQQ, 901224469);
             return 1;
         }
         /// <summary>
@@ -25,7 +24,17 @@ namespace IBoxs.Core.App.Event
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public static int ReceiveFriendAddRequest(CqAddFriendRequestEventArgs e) { 
+        public static int ReceiveFriendAddRequest(CqAddFriendRequestEventArgs e)
+        { 
+            return 1;
+        }
+        /// <summary>
+        /// 收到转账消息
+        /// </summary>
+        /// <param name="e"></param>
+        /// <returns></returns>
+        public static int ReceiveTranceAccounts(CqTransferAccountsEventArgs e)
+        {
             return 1;
         }
     }

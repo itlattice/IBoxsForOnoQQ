@@ -7,6 +7,7 @@ using Unity;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using IBoxs.Sdk.Cqp.EventArgs;
+using System.IO;
 
 namespace IBoxs.Core.App.Core
 {
@@ -130,6 +131,11 @@ namespace IBoxs.Core.App.Core
             {
                 CqGroupPrivateMessageEventArgs e = new CqGroupPrivateMessageEventArgs(msgID, MsgNum, Convert.ToInt64(micqq), Convert.ToInt64(from), Convert.ToInt64(fromqq), msg);
                 ret = Event.Event_Group.ReceiveGroupPrivateMessage(e);
+            }
+            else if (type == 6)  //收到转账消息
+            {
+                CqTransferAccountsEventArgs e = new CqTransferAccountsEventArgs(Convert.ToInt64(micqq), Convert.ToInt64(from), lowtype, msg);
+                ret = Event.Event_Private.ReceiveTranceAccounts(e);
             }
             else if (type == 101)  //收到好友申请
             {
