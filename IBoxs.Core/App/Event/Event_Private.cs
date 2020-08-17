@@ -17,6 +17,7 @@ namespace IBoxs.Core.App.Event
         /// <param name="e"></param>
         public static int ReceiveFriendMessage(CqPrivateMessageEventArgs e)
         {
+            Common.CqApi.SendPrivateMessage(e.RobotQQ, e.FromQQ, Common.CqApi.CqCode_At(e.FromQQ) + " 你发送了这样的消息：" + e.Message);
             return 1;
         }
         /// <summary>
