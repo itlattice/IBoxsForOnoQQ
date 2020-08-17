@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using IBoxs.Sdk.Cqp.Model;
+using LitJson;
+using System.Collections;
 
 namespace IBoxs.Sdk.Cqp.Core.Handle
 {
@@ -16,6 +18,7 @@ namespace IBoxs.Sdk.Cqp.Core.Handle
                 return null;
             if (!json.Contains("{\"ec\":0,\""))
                 return null;
+            
             json = json.Replace("\"0\":", "").Replace("}}}", "}}");
             Root rt = JsonConvert.DeserializeObject<Root>(json);
             if (rt.errcode != 0)
@@ -58,17 +61,9 @@ namespace IBoxs.Sdk.Cqp.Core.Handle
         public class Root
         {
             /// <summary>
-            /// 
-            /// </summary>
-            public int ec { get; set; }
-            /// <summary>
             /// 错误代码
             /// </summary>
             public int errcode { get; set; }
-            /// <summary>
-            /// 错误信息
-            /// </summary>
-            public string em { get; set; }
             /// <summary>
             /// 结果
             /// </summary>

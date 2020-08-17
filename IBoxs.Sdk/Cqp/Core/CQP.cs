@@ -76,8 +76,15 @@ namespace IBoxs.Sdk
         [DllImport (DllName, EntryPoint = "Api_GetGroupList", CharSet = CharSet.Ansi)]
         public static extern IntPtr Api_GetGroupList(string rotbotQQ);
 
+        
+        [DllImport (DllName, EntryPoint = "Api_GetGroupList_A", CharSet = CharSet.Ansi)]
+        public static extern IntPtr Api_GetGroupList_A(string rotbotQQ);
+
         [DllImport (DllName, EntryPoint = "Api_GetGroupMemberList", CharSet = CharSet.Ansi)]
         public static extern IntPtr Api_GetGroupMemberList(string rotbotQQ, string group);
+        
+        [DllImport (DllName, EntryPoint = "Api_GetGroupMemberList_B", CharSet = CharSet.Ansi)]
+        public static extern IntPtr Api_GetGroupMemberList_B(string rotbotQQ, string group);
 
         [DllImport (DllName, EntryPoint = "Api_IsShutUp", CharSet = CharSet.Ansi)]
         public static extern IntPtr Api_IsShutUp(string rotbotQQ, string group,string beqq);

@@ -17,6 +17,7 @@ namespace IBoxs.Core.App.Event
         /// <param name="e"></param>
         public static int ReceiveFriendMessage(CqPrivateMessageEventArgs e)
         {
+            Common.CqApi.GetMemberList_B(e.RobotQQ, 901224469);
             return 1;
         }
         /// <summary>

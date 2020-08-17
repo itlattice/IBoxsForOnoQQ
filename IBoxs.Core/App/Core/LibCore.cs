@@ -36,11 +36,11 @@ namespace IBoxs.Core.App.Core
         [DllExport(ExportName = "OQ_Create", CallingConvention = CallingConvention.StdCall)]
         private static string OQ_Create()
         {
-            Common.AppName = "群管机器人";
+            Common.AppName = "CSharpCDKForOno";
             Common.AppVersion = "1.0.0";
             Common.Author = "IT格子";
             Common.AppDirectory = Application.StartupPath + @"\Config\" + Common.AppName;
-            Common.Description = "抢购机器人";
+            Common.Description = "提供最新的C#开发ono插件SDK";
             Common.skey = "8956RTEWDFG3216598WERDF3";
             Common.SDK = "S3";
             Initialize();
