@@ -359,16 +359,13 @@ namespace IBoxs.Sdk.Cqp
         /// <param name="robotQQ"></param>
         /// <param name="group"></param>
         /// <returns></returns>
-        public List<GroupMemberInfo> GetMemberList_B(long robotQQ, long group)
+        public string GetMemberList_B(long robotQQ, long group)
         {
-            string json = Marshal.PtrToStringAnsi(CQP.Api_GetGroupMemberList_B(robotQQ.ToString(), group.ToString())).Trim();
+            string json = Marshal.PtrToStringAnsi(CQP.Api_GetGroupMemberList_C(robotQQ.ToString(), group.ToString())).Trim();
             if (json.Length < 1)
                 return null;
             json = Cqp.Core.KerMsg.FromUnicodeString(json);
-
-            File.WriteAllText("D:/1.txt", json);
-
-            return null;
+            return json;
         }
 
         #endregion
