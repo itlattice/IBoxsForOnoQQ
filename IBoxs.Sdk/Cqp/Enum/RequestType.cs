@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace IBoxs.Sdk.Cqp.Enum
 {
     /// <summary>
-    /// 群请求类型
+    /// 请求类型
     /// </summary>
    public enum RequestType
     {

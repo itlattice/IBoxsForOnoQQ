@@ -92,6 +92,7 @@
     <Compile Include="App\Event\Event_AppStauts.cs" />
     <Compile Include="App\Event\Event_Group.cs" />
     <Compile Include="App\Event\Event_Private.cs" />
+    <Compile Include="App\Event\Event_QQStauts.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repair\Core\Kernel32.cs" />
     <Compile Include="Repair\Enum\LoadLibraryFlags.cs" />

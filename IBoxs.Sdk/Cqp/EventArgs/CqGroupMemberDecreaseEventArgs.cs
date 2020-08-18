@@ -33,12 +33,7 @@ namespace IBoxs.Sdk.Cqp.EventArgs
         /// 获取当前事件触发时的目标QQ
         /// </summary>
         public long BeingOperateQQ { get; private set; }
-
-        /// <summary>
-        /// 获取或设置一个值, 指示当前是否处理过此事件. 若此值为 True 将停止处理后续事件
-        /// </summary>
-        public bool Handler { get; set; }
-
+        
         /// <summary>
         /// 初始化 <see cref="CqGroupMemberDecreaseEventArgs"/> 类的一个新实例
         /// </summary>

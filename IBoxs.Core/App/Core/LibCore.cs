@@ -99,21 +99,20 @@ namespace IBoxs.Core.App.Core
         [DllExport(ExportName = "OQ_Event", CallingConvention = CallingConvention.StdCall)]
         public static int OQ_Event(string micqq, int type, int lowtype, string from, string fromqq, string bqq, string msg, string MsgNum, string msgID, string teamsg, string json, int note)
         {
-            if (type == 1)
-            {
-                // Common.CqApi.GetMemberList(micqq, "901224469");
-            }
             int ret = 1;
-            //MessageBox.Show(type.ToString());
             switch (type)
             {
-                case 1101: ret = Event.Event_AppMain.CqAppEnable(); break;
                 case 12000: ret = Event.Event_AppMain.CqStartup(); break;
                 case 12001: ret = Event.Event_AppMain.CqAppEnable(); break;
                 case 12002: ret = Event.Event_AppMain.CqAppDisable(); break;
             }
 
-            if (type < 0)  //未定义事件
+            if (type > 1100 && type < 1110)
+            {
+                CqQQStuatsChangeEventArgs e = new CqQQStuatsChangeEventArgs(Convert.ToInt64(micqq), type);
+                ret = Event.Event_QQStauts.LoginSucess(e);
+            }
+            else if (type < 0)  //未定义事件
             {
 
             }
@@ -162,7 +161,7 @@ namespace IBoxs.Core.App.Core
                 CqAddGroupRequestEventArgs e = new CqAddGroupRequestEventArgs(DateTime.Now, Convert.ToInt64(from), Convert.ToInt64(micqq), Convert.ToInt64(fromqq), msg, teamsg);
                 ret = Event.Event_Group.ReceiveAddGroupRequest(e);
             }
-            else if (type == 214)
+            else if (type == 214)  //机器人被邀请事件
             {
                 CqAddGroupRequestEventArgs e = new CqAddGroupRequestEventArgs(DateTime.Now, Convert.ToInt64(from), Convert.ToInt64(micqq), Convert.ToInt64(fromqq), msg, teamsg);
                 ret = Event.Event_Group.ReceiveAddGroupBeInvitee(e);

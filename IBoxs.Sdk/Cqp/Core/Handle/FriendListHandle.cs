@@ -18,8 +18,11 @@ namespace IBoxs.Sdk.Cqp.Core.Handle
                 return null;
             if (!json.Contains("{\"ec\":0,\""))
                 return null;
-            
-            json = json.Replace("\"0\":", "").Replace("}}}", "}}");
+            for (int i = 0; i < 10; i++)
+            {
+                json = json.Replace("\""+i.ToString()+"\":", "");
+            }
+            json = json.Replace("}}}", "}}");
             Root rt = JsonConvert.DeserializeObject<Root>(json);
             if (rt.errcode != 0)
                 return null;
