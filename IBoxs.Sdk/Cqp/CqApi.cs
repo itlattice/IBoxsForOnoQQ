@@ -31,7 +31,7 @@ namespace IBoxs.Sdk.Cqp
             string c = Marshal.PtrToStringAnsi(CQP.Api_SendMsg(RobotQQ.ToString(), 1, "", qqId.ToString(), message, Bubble, Type));
             return c;
         }
-
+        
         /// <summary>
         /// 发送群消息
         /// </summary>
@@ -66,7 +66,7 @@ namespace IBoxs.Sdk.Cqp
         /// <param name="Type">消息类型（1为普通，2为匿名）</param>
         /// <param name="Bubble">气泡ID（-1为随机）</param>
         /// <returns></returns>
-        public string SendDiscussMessage(long RobotQQ, long groupId,long qqId, string message, int Type = 1, int Bubble = -1)
+        public string SendGroupPrivateMessage(long RobotQQ, long groupId,long qqId, string message, int Type = 1, int Bubble = -1)
         {
             string c = Marshal.PtrToStringAnsi(CQP.Api_SendMsg(RobotQQ.ToString(), 4, groupId.ToString(), qqId.ToString(), message, Bubble, Type));
             return c;
@@ -266,7 +266,20 @@ namespace IBoxs.Sdk.Cqp
             }
             return grouplist;
         }
-        
+
+        /// <summary>
+        /// 获取群名称
+        /// </summary>
+        /// <param name="RobotQQ"></param>
+        /// <param name="group"></param>
+        /// <returns></returns>
+        public string GetGroupName(long RobotQQ, long group)
+        {
+            string c = Marshal.PtrToStringAnsi(CQP.Api_GetGroupName(RobotQQ.ToString(), group.ToString())).Trim();
+            return c;
+        }
+
+
         /// <summary>
         /// 获取群成员人数与最大人数
         /// </summary>

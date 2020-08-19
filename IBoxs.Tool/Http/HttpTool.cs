@@ -153,7 +153,7 @@ namespace IBoxs.Tool.Http
         /// <param name="postData"></param>
         /// <param name="cc"></param>
         /// <returns></returns>
-        public static string CPost(string url, string postData, CookieCollection cc)
+        public static string CPost(string url, string postData, CookieContainer cc)
         {
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
             request.Method = "POST";
@@ -163,7 +163,7 @@ namespace IBoxs.Tool.Http
             request.ProtocolVersion = HttpVersion.Version11;
             request.AllowAutoRedirect = true;
             request.ContentLength = byteArray.Length;
-            request.CookieContainer.Add(cc);
+            request.CookieContainer=cc;
             Stream dataStream = request.GetRequestStream();
             dataStream.Write(byteArray, 0, byteArray.Length);
             dataStream.Close();

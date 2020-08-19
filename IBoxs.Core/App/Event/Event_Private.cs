@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using IBoxs.Sdk.Cqp.EventArgs;
 using System.Data;
+using System.Windows.Forms;
 
 namespace IBoxs.Core.App.Event
 {
