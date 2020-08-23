@@ -221,7 +221,21 @@ namespace IBoxs.Sdk.Cqp
         {
             CQP.Api_OutPutLog(note);
         }
-
+        /// <summary>
+        /// 获取QQ的Bkn（获取列表接口可能会用到）
+        /// </summary>
+        /// <param name="skey"></param>
+        /// <returns></returns>
+        public long GetBkn(string skey)
+        {
+            var hash = 5381;
+            for (int i = 0, len = skey.Length; i < len; ++i)
+            {
+                hash += (hash << 5) + (int)skey[i];
+            }
+            return hash & 2147483647;
+        }
+        
         /// <summary>
         /// 取对象昵称
         /// </summary>

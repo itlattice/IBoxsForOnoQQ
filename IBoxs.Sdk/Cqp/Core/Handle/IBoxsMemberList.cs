@@ -29,9 +29,10 @@ namespace IBoxs.Sdk.Cqp.Core.Handle
             long bkn = 1000;
             for (int i = 0; i < ck.Length; i++)
             {
+                CqApi cq = new CqApi();
                 string key = ck[i].Split('=')[0];
                 if (key.Trim() == "skey")
-                    bkn = GetBkn(ck[i].Split('=')[1]);
+                    bkn =cq.GetBkn(ck[i].Split('=')[1]);
                 string value = ck[i].Split('=')[1];
                 Cookie ckie = new Cookie(key, value);
                 cookie.Add(u, ckie);
@@ -40,16 +41,6 @@ namespace IBoxs.Sdk.Cqp.Core.Handle
             MessageBox.Show(url + data + cookie.ToString());
             string result = IBoxs.Tool.Http.HttpTool.CPost(url, data,cookie);
             return data;
-        }
-        
-        public static long GetBkn(string skey)
-        {
-            var hash = 5381;
-            for (int i = 0, len = skey.Length; i < len; ++i)
-            {
-                hash += (hash << 5) + (int)skey[i];
-            }
-            return hash & 2147483647;
         }
     }
 }
