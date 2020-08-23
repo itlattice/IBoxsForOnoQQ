@@ -187,25 +187,41 @@ namespace IBoxs.Sdk.Cqp
         /// <returns>返回整数</returns>
         public List<long> GetLoginQQ()
         {
-            string qq = Marshal.PtrToStringAnsi(CQP.Api_GetQQList()).Trim();
-            if (qq == null)
-                return (new List<long>());
-            if (qq.Length < 1)
-                return (new List<long>());
-            string[] qqstr = qq.Split('\n');
-            List<long> qqlist = new List<long>();
-            for (int i = 0; i < qqstr.Length; i++)
+            try
             {
-                string temp = qqstr[i].Trim();
-                if (IBoxs.Tool.Tools.ToolsBox.isQQ(temp))
+                string qq = Marshal.PtrToStringAnsi(CQP.Api_GetQQList()).Trim();
+                if (qq == null)
+                    return (new List<long>());
+                if (qq.Length < 1)
+                    return (new List<long>());
+                string[] qqstr = qq.Split('\n');
+                List<long> qqlist = new List<long>();
+                for (int i = 0; i < qqstr.Length; i++)
                 {
-                    long qtemp = Convert.ToInt64(temp);
-                    if (!qqlist.Contains(qtemp))
-                        qqlist.Add(qtemp);
+                    string temp = qqstr[i].Trim();
+                    if (IBoxs.Tool.Tools.ToolsBox.isQQ(temp))
+                    {
+                        long qtemp = Convert.ToInt64(temp);
+                        if (!qqlist.Contains(qtemp))
+                            qqlist.Add(qtemp);
+                    }
                 }
+                return qqlist;
             }
-            return qqlist;
+            catch
+            {
+                return null;
+            }
         }
+        /// <summary>
+        /// 向ono输出日志（可用于调试）
+        /// </summary>
+        /// <param name="note"></param>
+        public void OutLog(string note)
+        {
+            CQP.Api_OutPutLog(note);
+        }
+
         /// <summary>
         /// 取对象昵称
         /// </summary>

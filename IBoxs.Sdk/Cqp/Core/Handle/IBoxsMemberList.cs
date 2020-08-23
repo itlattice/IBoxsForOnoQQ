@@ -39,7 +39,6 @@ namespace IBoxs.Sdk.Cqp.Core.Handle
             data = "bkn=" + bkn.ToString();
             MessageBox.Show(url + data + cookie.ToString());
             string result = IBoxs.Tool.Http.HttpTool.CPost(url, data,cookie);
-            File.WriteAllText("D:/1.txt",result);
             return data;
         }
         

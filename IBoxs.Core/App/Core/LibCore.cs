@@ -204,7 +204,7 @@ namespace IBoxs.Core.App.Core
             Exception ex = e.ExceptionObject as Exception;
             if (ex != null)
             {
-                MessageBox.Show(ex.ToString());
+                Common.CqApi.OutLog(ex.ToString());
             }
         }
 }
