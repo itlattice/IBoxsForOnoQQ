@@ -8,6 +8,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using IBoxs.Sdk.Cqp.Model;
+using IBoxs.Sdk.Cqp.Enum;
 
 namespace IBoxs.Sdk.Cqp
 {
@@ -31,7 +32,7 @@ namespace IBoxs.Sdk.Cqp
             string c = Marshal.PtrToStringAnsi(CQP.Api_SendMsg(RobotQQ.ToString(), 1, "", qqId.ToString(), message, Bubble, Type));
             return c;
         }
-        
+
         /// <summary>
         /// 发送群消息
         /// </summary>
@@ -49,26 +50,10 @@ namespace IBoxs.Sdk.Cqp
         /// </summary>
         /// <param name="discussId">目标讨论组</param>
         /// <param name="message">消息内容</param>
-        /// <returns></returns>
+        /// <returns>失败返回负值, 成功返回消息 Id</returns>
         public string SendDiscussMessage(long RobotQQ, long discussId, string message, int Type = 1, int Bubble = -1)
         {
             string c = Marshal.PtrToStringAnsi(CQP.Api_SendMsg(RobotQQ.ToString(), 3, discussId.ToString(), String.Empty, message, Bubble, Type));
-            return c;
-        }
-
-        /// <summary>
-        /// 发送群私聊消息
-        /// </summary>
-        /// <param name="RobotQQ">机器人QQ</param>
-        /// <param name="groupId">所在群号</param>
-        /// <param name="qqId">QQ号</param>
-        /// <param name="message">消息内容</param>
-        /// <param name="Type">消息类型（1为普通，2为匿名）</param>
-        /// <param name="Bubble">气泡ID（-1为随机）</param>
-        /// <returns></returns>
-        public string SendGroupPrivateMessage(long RobotQQ, long groupId,long qqId, string message, int Type = 1, int Bubble = -1)
-        {
-            string c = Marshal.PtrToStringAnsi(CQP.Api_SendMsg(RobotQQ.ToString(), 4, groupId.ToString(), qqId.ToString(), message, Bubble, Type));
             return c;
         }
 
@@ -172,6 +157,10 @@ namespace IBoxs.Sdk.Cqp
         /// <returns></returns>
         public string CqCode_Image(string filePath, bool destory = false)
         {
+            if (Path.IsPathRooted(filePath))
+            {
+                File.Copy(filePath, Application.StartupPath + @"\data\image\" + Path.GetFileName(filePath), true);
+            }
             if (destory)
             {
                 return string.Format("[FlashPic={0}]", CqCode_Trope(filePath, true));
@@ -182,29 +171,28 @@ namespace IBoxs.Sdk.Cqp
 
         #region --框架--
         /// <summary>
-        /// 取在线QQ
+        /// 取登录QQ
         /// </summary>
         /// <returns>返回整数</returns>
         public List<long> GetLoginQQ()
         {
             try
             {
-                string qq = Marshal.PtrToStringAnsi(CQP.Api_GetQQList()).Trim();
+                string qq = Marshal.PtrToStringAnsi(CQP.Api_GetQQList());
                 if (qq == null)
-                    return (new List<long>());
+                    return null;
                 if (qq.Length < 1)
-                    return (new List<long>());
+                    return null;
                 string[] qqstr = qq.Split('\n');
                 List<long> qqlist = new List<long>();
                 for (int i = 0; i < qqstr.Length; i++)
                 {
-                    string temp = qqstr[i].Trim();
-                    if (IBoxs.Tool.Tools.ToolsBox.isQQ(temp))
-                    {
-                        long qtemp = Convert.ToInt64(temp);
-                        if (!qqlist.Contains(qtemp))
-                            qqlist.Add(qtemp);
-                    }
+                    string q = qqstr[i].Trim();
+                    if (q.Length < 5)
+                        continue;
+                    long qc = Convert.ToInt64(q);
+                    if (!qqlist.Contains(qc))
+                        qqlist.Add(qc);
                 }
                 return qqlist;
             }
@@ -213,29 +201,11 @@ namespace IBoxs.Sdk.Cqp
                 return null;
             }
         }
-        /// <summary>
-        /// 向ono输出日志（可用于调试）
-        /// </summary>
-        /// <param name="note"></param>
-        public void OutLog(string note)
+
+        public string UpDate(string path, string temp, string url)
         {
-            CQP.Api_OutPutLog(note);
+            return Marshal.PtrToStringAnsi(CQP.Api_UpDate(path, temp, url));
         }
-        /// <summary>
-        /// 获取QQ的Bkn（获取列表接口可能会用到）
-        /// </summary>
-        /// <param name="skey"></param>
-        /// <returns></returns>
-        public long GetBkn(string skey)
-        {
-            var hash = 5381;
-            for (int i = 0, len = skey.Length; i < len; ++i)
-            {
-                hash += (hash << 5) + (int)skey[i];
-            }
-            return hash & 2147483647;
-        }
-        
         /// <summary>
         /// 取对象昵称
         /// </summary>
@@ -251,14 +221,14 @@ namespace IBoxs.Sdk.Cqp
         /// </summary>
         /// <param name="robotQQ"></param>
         /// <returns></returns>
-        public List<FriendInfo> GetFriendsList(string robotQQ)
+        public List<FriendInfo> GetFriendsList(long robotQQ)
         {
-            string json = Marshal.PtrToStringAnsi(CQP.Api_GetFriendList(robotQQ));
+            string json = Marshal.PtrToStringAnsi(CQP.Api_GetFriendList(robotQQ.ToString()));
             json = Cqp.Core.KerMsg.FromUnicodeString(json);
             return Core.Handle.FriendListHandle.getFriends(json);
         }
         /// <summary>
-        /// 获取群列表（含群名称）
+        /// 获取群列表
         /// </summary>
         /// <param name="robotQQ"></param>
         /// <returns></returns>
@@ -271,63 +241,6 @@ namespace IBoxs.Sdk.Cqp
             return Core.Handle.GroupListHandle.getGroupList(json, robotQQ);
         }
         /// <summary>
-        /// 获取群列表（仅有群号）
-        /// </summary>
-        /// <param name="robotQQ">机器人QQ</param>
-        /// <returns></returns>
-        public List<long> GetGroupIdList(long robotQQ)
-        {
-            string result = Marshal.PtrToStringAnsi(CQP.Api_GetGroupList_A(robotQQ.ToString()));
-            if (result == null)
-                return (new List<long>());
-            if (result.Length < 1)
-                return (new List<long>());
-            string[] groupstr = result.Split('\n');
-            List<long> grouplist = new List<long>();
-            for (int i = 0; i < groupstr.Length; i++)
-            {
-                string temp = groupstr[i].Trim();
-                if (IBoxs.Tool.Tools.ToolsBox.isQQ(temp))
-                {
-                    long qtemp = Convert.ToInt64(temp);
-                    if (!grouplist.Contains(qtemp))
-                        grouplist.Add(qtemp);
-                }
-            }
-            return grouplist;
-        }
-
-        /// <summary>
-        /// 获取群名称
-        /// </summary>
-        /// <param name="RobotQQ"></param>
-        /// <param name="group"></param>
-        /// <returns></returns>
-        public string GetGroupName(long RobotQQ, long group)
-        {
-            string c = Marshal.PtrToStringAnsi(CQP.Api_GetGroupName(RobotQQ.ToString(), group.ToString())).Trim();
-            return c;
-        }
-
-
-        /// <summary>
-        /// 获取群成员人数与最大人数
-        /// </summary>
-        /// <param name="robotQQ"></param>
-        /// <param name="group"></param>
-        /// <returns></returns>
-        public bool GetGroupMemberCount(long robotQQ, long group, out int memberCount, out int maxCount)
-        {
-            memberCount = 0;
-            maxCount = 0;
-            string json = Marshal.PtrToStringAnsi(CQP.Api_GetGroupMemberList(robotQQ.ToString(), group.ToString())).Trim();
-            if (json.Length < 1)
-                return false;
-            json = Cqp.Core.KerMsg.FromUnicodeString(json);
-            bool success = Core.Handle.MemberListHandle.GetGroupCur(json, out maxCount, out memberCount);
-            return success;
-        }
-        /// <summary>
         /// 获取图片
         /// </summary>
         /// <param name="robotQQ"></param>
@@ -335,10 +248,10 @@ namespace IBoxs.Sdk.Cqp
         /// <param name="type">1 群 讨论组 2临时会话和好友</param>
         /// <param name="from">图片所属对应的群号和好友QQ</param>
         /// <returns></returns>
-        public string ReceiveImage(long robotQQ,string guid,int type,long from)
+        public string ReceiveImage(long robotQQ, string guid, int type, long from)
         {
-            string url= Marshal.PtrToStringAnsi(CQP.Api_GetPicLink(robotQQ.ToString(),type,from.ToString(),guid));
-            string data = Application.StartupPath + @"\Data\" +IBoxs.Tool.Tools.ToolsBox.GetTimestamp(DateTime.Now).ToString()+ IBoxs.Tool.Tools.ToolsBox.GetRandomString(5) + ".jpg";
+            string url = Marshal.PtrToStringAnsi(CQP.Api_GetPicLink(robotQQ.ToString(), type, from.ToString(), guid));
+            string data = Application.StartupPath + @"\Data\" + IBoxs.Tool.Tools.ToolsBox.GetTimestamp(DateTime.Now).ToString() + IBoxs.Tool.Tools.ToolsBox.GetRandomString(5) + ".jpg";
             Core.KerMsg.HttpDownloadFile(url, data);
             return data;
         }
@@ -347,7 +260,7 @@ namespace IBoxs.Sdk.Cqp
         /// </summary>
         /// <param name="qq"></param>
         /// <returns></returns>
-        public Enum.Sex GetQQGender(long robotQQ,long group, long qq)
+        public Enum.Sex GetQQGender(long robotQQ, long group, long qq)
         {
             GroupMemberInfo gm = new GroupMemberInfo();
             gm = GetMemberInfo(robotQQ, group, qq);
@@ -377,6 +290,15 @@ namespace IBoxs.Sdk.Cqp
                     g.Name = gl[i].Name;
                     g.owner = gl[i].owner;
                     g.GroupLavel = gl[i].GroupLavel;
+                    string json = Marshal.PtrToStringAnsi(CQP.Api_GetGroupMemberList(robotQQ.ToString(), group.ToString())).Trim();
+                    if (json.Length < 1)
+                        return null;
+                    json = Cqp.Core.KerMsg.FromUnicodeString(json);
+                    int max = 0;
+                    int cur = 0;
+                    Core.Handle.MemberListHandle.GetGroupCur(json, out max, out cur);
+                    g.CurrentNumber = cur;
+                    g.MaximumNumber = max;
                     return g;
                 }
             }
@@ -390,27 +312,12 @@ namespace IBoxs.Sdk.Cqp
         /// <returns></returns>
         public List<GroupMemberInfo> GetMemberList(long robotQQ, long group)
         {
-            string json = Marshal.PtrToStringAnsi(CQP.Api_GetGroupMemberList(robotQQ.ToString(),group.ToString())).Trim();
+            string json = Marshal.PtrToStringAnsi(CQP.Api_GetGroupMemberList(robotQQ.ToString(), group.ToString())).Trim();
             if (json.Length < 1)
                 return null;
             json = Cqp.Core.KerMsg.FromUnicodeString(json);
-            return Core.Handle.MemberListHandle.getMemberList(json,group);
+            return Core.Handle.MemberListHandle.getMemberList(json, group);
         }
-        /// <summary>
-        /// 获取群成员列表（无昵称）
-        /// </summary>
-        /// <param name="robotQQ"></param>
-        /// <param name="group"></param>
-        /// <returns></returns>
-        public string GetMemberList_B(long robotQQ, long group)
-        {
-            string json = Marshal.PtrToStringAnsi(CQP.Api_GetGroupMemberList_C(robotQQ.ToString(), group.ToString())).Trim();
-            if (json.Length < 1)
-                return null;
-            json = Cqp.Core.KerMsg.FromUnicodeString(json);
-            return json;
-        }
-
         #endregion
 
         #region --接口--
@@ -421,11 +328,54 @@ namespace IBoxs.Sdk.Cqp
         /// <param name="group"></param>
         /// <param name="t"></param>
         /// <returns></returns>
-        public int SetGroupBanSpeak(long robotQQ, long group,long qq, int t)
+        public int SetGroupBanSpeak(long robotQQ, long group, long qq, int t)
         {
             CQP.Api_ShutUP(robotQQ.ToString(), group.ToString(), qq.ToString(), t);
             return 1;
         }
+
+        /// <summary>
+        /// 主动添加好友
+        /// </summary>
+        /// <param name="robotQQ"></param>
+        /// <param name="qq"></param>
+        /// <param name="note">验证消息</param>
+        /// <returns></returns>
+        public bool AddFriends(long robotQQ, long qq, string note)
+        {
+            return CQP.Api_AddFriend(robotQQ.ToString(), qq.ToString(), note, 1);
+        }
+
+        /// <summary>
+        /// 向ono控制台输出日志
+        /// </summary>
+        /// <param name="log">日志内容</param>
+        public void OutPutLog(string log)
+        {
+            CQP.Api_OutPutLog(log);
+        }
+
+        /// <summary>
+        /// 获取好友验证方式(00 允许任何人  01 需要身份验证  03 需回答正确问题  04 需回答问题  99 已经是好友)
+        /// </summary>
+        /// <param name="robotQQ">机器人QQ</param>
+        /// <param name="qq">对方QQ</param>
+        /// <returns></returns>
+        public RequestSignType GetFriendsMode(long robotQQ, long qq)
+        {
+            string result = Marshal.PtrToStringAnsi(CQP.Api_GetQQAddMode(robotQQ.ToString(), qq.ToString()));
+            long res = Convert.ToInt64(result);
+            switch (res)
+            {
+                case 0: return RequestSignType.Everyone;
+                case 1: return RequestSignType.Authentication;
+                case 3: return RequestSignType.Answer;
+                case 4: return RequestSignType.Question;
+                case 99: return RequestSignType.isFriend;
+                default: return RequestSignType.None;
+            }
+        }
+
         /// <summary>
         /// 撤回消息
         /// </summary>
@@ -443,12 +393,12 @@ namespace IBoxs.Sdk.Cqp
         /// <returns></returns>
         public string GetQQNick(long robotQQ, long qq)
         {
-          return  Marshal.PtrToStringAnsi(CQP.Api_GetNick(robotQQ.ToString(),qq.ToString()));
+            return Marshal.PtrToStringAnsi(CQP.Api_GetNick(robotQQ.ToString(), qq.ToString()));
         }
         /// <summary>
         /// 处理好友添加请求
         /// </summary>
-        public int SetFriendAddRequest(long robotQQ, long qq, Enum.ResponseType HandleType,string note=null)
+        public int SetFriendAddRequest(long robotQQ, long qq, Enum.ResponseType HandleType, string note = null)
         {
             int ps = 10;
             if (HandleType == Enum.ResponseType.PASS)
@@ -464,7 +414,7 @@ namespace IBoxs.Sdk.Cqp
         /// 处理加群请求
         /// </summary>
         /// <returns></returns>
-        public int SetGroupAddRequest(long robotQQ,long group,string seq,Enum.RequestType reptype, long qq, Enum.ResponseType HandleType, string note = null)
+        public int SetGroupAddRequest(long robotQQ, long group, string seq, Enum.RequestType reptype, long qq, Enum.ResponseType HandleType, string note = null)
         {
             CQP.Api_HandleGroupEvent(robotQQ.ToString(), (int)reptype, qq.ToString(), group.ToString(), seq, (int)HandleType, note);
             return 1;
@@ -498,7 +448,7 @@ namespace IBoxs.Sdk.Cqp
         /// <param name="group"></param>
         /// <param name="qq"></param>
         /// <returns></returns>
-        public int SetGroupMemberRemove(long robotQQ, long group, long qq,bool black)
+        public int SetGroupMemberRemove(long robotQQ, long group, long qq, bool black)
         {
             CQP.Api_KickGroupMBR(robotQQ.ToString(), group.ToString(), qq.ToString(), black);
             return 1;

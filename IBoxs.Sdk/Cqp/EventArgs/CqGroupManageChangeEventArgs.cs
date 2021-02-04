@@ -7,10 +7,15 @@ using System.Threading.Tasks;
 namespace IBoxs.Sdk.Cqp.EventArgs
 {
     /// <summary>
-    /// 表示群成员减少事件参数的类
+    /// 表示群管理变动事件参数的类
     /// </summary>
-    public class CqGroupMemberDecreaseEventArgs
+    public class CqGroupManageChangeEventArgs : CqEventArgsBase
     {
+        /// <summary>
+        /// 获取一个值, 该值表示当前事件的类型
+        /// </summary>
+        public override int Type { get { return 101; } }
+
         /// <summary>
         /// 获取当前事件触发时间
         /// </summary>
@@ -20,14 +25,6 @@ namespace IBoxs.Sdk.Cqp.EventArgs
         /// 获取当前消息的来源群组号
         /// </summary>
         public long FromGroup { get; private set; }
-        /// <summary>
-        /// 机器人QQ
-        /// </summary>
-        public long RobotQQ { get; set; }
-        /// <summary>
-        /// 获取当前消息的来源QQ号
-        /// </summary>
-        public long FromQQ { get; private set; }
 
         /// <summary>
         /// 获取当前事件触发时的目标QQ
@@ -40,21 +37,20 @@ namespace IBoxs.Sdk.Cqp.EventArgs
         public bool Handler { get; set; }
 
         /// <summary>
-        /// 初始化 <see cref="CqGroupMemberDecreaseEventArgs"/> 类的一个新实例
+        /// 初始化 <see cref="CqGroupManageChangeEventArgs"/> 类的一个新实例
         /// </summary>
         /// <param name="id">事件ID</param>
         /// <param name="name">事件名称</param>
-        /// <param name="sendTime">发送时间</param>
+        /// <param name="sendTime">触发时间</param>
         /// <param name="fromGroup">来源群</param>
-        /// <param name="fromQQ">操作者QQ</param>
-        /// <param name="operateQQ">被操作QQ</param>
-        public CqGroupMemberDecreaseEventArgs (DateTime sendTime, long fromGroup,long robotQQ, long fromQQ, long operateQQ)
+        /// <param name="targetQQ">目标QQ</param>
+        public CqGroupManageChangeEventArgs (int id, string name, DateTime sendTime, long fromGroup, long targetQQ)
         {
+            base.Id = id;
+            base.Name = name;
             this.SendTime = sendTime;
-            this.RobotQQ = robotQQ;
             this.FromGroup = fromGroup;
-            this.FromQQ = fromQQ;
-            this.BeingOperateQQ = operateQQ;
+            this.BeingOperateQQ = targetQQ;
         }
     }
 }

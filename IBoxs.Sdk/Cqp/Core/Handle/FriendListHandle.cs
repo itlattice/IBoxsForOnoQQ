@@ -5,8 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using IBoxs.Sdk.Cqp.Model;
-using LitJson;
-using System.Collections;
+using System.Windows.Forms;
 
 namespace IBoxs.Sdk.Cqp.Core.Handle
 {
@@ -14,15 +13,7 @@ namespace IBoxs.Sdk.Cqp.Core.Handle
     {
         public static List<Model.FriendInfo> getFriends(string json)
         {
-            if (json.Length < 5)
-                return null;
-            if (!json.Contains("{\"ec\":0,\""))
-                return null;
-            for (int i = 0; i < 10; i++)
-            {
-                json = json.Replace("\""+i.ToString()+"\":", "");
-            }
-            json = json.Replace("}}}", "}}");
+            json = json.Replace("\"0\":", "").Replace("}}}", "}}");
             Root rt = JsonConvert.DeserializeObject<Root>(json);
             if (rt.errcode != 0)
                 return null;
@@ -64,9 +55,17 @@ namespace IBoxs.Sdk.Cqp.Core.Handle
         public class Root
         {
             /// <summary>
+            /// 
+            /// </summary>
+            public int ec { get; set; }
+            /// <summary>
             /// 错误代码
             /// </summary>
             public int errcode { get; set; }
+            /// <summary>
+            /// 错误信息
+            /// </summary>
+            public string em { get; set; }
             /// <summary>
             /// 结果
             /// </summary>

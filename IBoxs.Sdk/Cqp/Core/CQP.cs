@@ -76,15 +76,8 @@ namespace IBoxs.Sdk
         [DllImport (DllName, EntryPoint = "Api_GetGroupList", CharSet = CharSet.Ansi)]
         public static extern IntPtr Api_GetGroupList(string rotbotQQ);
 
-        
-        [DllImport (DllName, EntryPoint = "Api_GetGroupList_A", CharSet = CharSet.Ansi)]
-        public static extern IntPtr Api_GetGroupList_A(string rotbotQQ);
-
         [DllImport (DllName, EntryPoint = "Api_GetGroupMemberList", CharSet = CharSet.Ansi)]
         public static extern IntPtr Api_GetGroupMemberList(string rotbotQQ, string group);
-        
-        [DllImport (DllName, EntryPoint = "Api_GetGroupMemberList_C", CharSet = CharSet.Ansi)]
-        public static extern IntPtr Api_GetGroupMemberList_C(string rotbotQQ, string group);
 
         [DllImport (DllName, EntryPoint = "Api_IsShutUp", CharSet = CharSet.Ansi)]
         public static extern IntPtr Api_IsShutUp(string rotbotQQ, string group,string beqq);
@@ -327,7 +320,7 @@ namespace IBoxs.Sdk
         public static extern IntPtr Api_HandleFriendEvent(string robotQQ,string beqq,int handleType,string note);
 
         [DllImport(DllName, EntryPoint = "Api_AddFriend", CharSet = CharSet.Ansi)]
-        public static extern IntPtr Api_AddFriend(string robotQQ,string qq,string note,int type);
+        public static extern bool Api_AddFriend(string robotQQ,string qq,string note,int type);
 
         [DllImport(DllName, EntryPoint = "Api_UpDate", CharSet = CharSet.Ansi)]
         public static extern IntPtr Api_UpDate(string fromArr,string temp,string url);

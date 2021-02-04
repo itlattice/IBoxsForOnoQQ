@@ -8,7 +8,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>IBoxs.Sdk</RootNamespace>
-    <AssemblyName>IBox.SDK</AssemblyName>
+    <AssemblyName>kaMain</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -22,7 +22,7 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>false</Prefer32Bit>
-    <DocumentationFile>bin\x86\Debug\IBox.SDK.xml</DocumentationFile>
+    <DocumentationFile>bin\x86\Debug\kaMain.xml</DocumentationFile>
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
@@ -36,9 +36,6 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="LitJSON, Version=0.16.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\LitJson.0.16.0\lib\net45\LitJSON.dll</HintPath>
-    </Reference>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -56,26 +53,33 @@
     <Compile Include="Cqp\Core\CQP.cs" />
     <Compile Include="Cqp\Core\Handle\FriendListHandle.cs" />
     <Compile Include="Cqp\Core\Handle\GroupListHandle.cs" />
-    <Compile Include="Cqp\Core\Handle\IBoxsMemberList.cs" />
     <Compile Include="Cqp\Core\Handle\MemberListHandle.cs" />
     <Compile Include="Cqp\Core\KerMsg.cs" />
     <Compile Include="Cqp\CqApi.cs" />
-    <Compile Include="Cqp\Enum\CashType.cs" />
     <Compile Include="Cqp\Enum\PermitType.cs" />
-    <Compile Include="Cqp\Enum\QQLineType.cs" />
-    <Compile Include="Cqp\Enum\QQStauts.cs" />
+    <Compile Include="Cqp\Enum\RequestSignType.cs" />
     <Compile Include="Cqp\Enum\RequestType.cs" />
     <Compile Include="Cqp\Enum\ResponseType.cs" />
     <Compile Include="Cqp\Enum\Sex.cs" />
+    <Compile Include="Cqp\EventArgs\CqAddFriendAgreeEventArgs.cs" />
     <Compile Include="Cqp\EventArgs\CqAddFriendRequestEventArgs.cs" />
     <Compile Include="Cqp\EventArgs\CqAddGroupRequestEventArgs.cs" />
+    <Compile Include="Cqp\EventArgs\CqAppDisableEventArgs.cs" />
+    <Compile Include="Cqp\EventArgs\CqAppEnableEventArgs.cs" />
+    <Compile Include="Cqp\EventArgs\CqCallMenuEventArgs.cs" />
+    <Compile Include="Cqp\EventArgs\CqDiscussMessageEventArgs.cs" />
+    <Compile Include="Cqp\EventArgs\CqEventArgsBase.cs" />
+    <Compile Include="Cqp\EventArgs\CqExitEventArgs.cs" />
+    <Compile Include="Cqp\EventArgs\CqFriendIncreaseEventArgs.cs" />
+    <Compile Include="Cqp\EventArgs\CqGroupBanEventArgs.cs" />
+    <Compile Include="Cqp\EventArgs\CqGroupManageChangeEventArgs.cs" />
     <Compile Include="Cqp\EventArgs\CqGroupMemberDecreaseEventArgs.cs" />
     <Compile Include="Cqp\EventArgs\CqGroupMemberIncreaseEventArgs.cs" />
     <Compile Include="Cqp\EventArgs\CqGroupMessageEventArgs.cs" />
     <Compile Include="Cqp\EventArgs\CqGroupPrivateMessageEventArgs.cs" />
-    <Compile Include="Cqp\EventArgs\CqQQStuatsChangeEventArgs.cs" />
-    <Compile Include="Cqp\EventArgs\CqTransferAccountsEventArgs.cs" />
     <Compile Include="Cqp\EventArgs\CqPrivateMessageEventArgs.cs" />
+    <Compile Include="Cqp\EventArgs\CqStartupEventArgs.cs" />
+    <Compile Include="Cqp\EventArgs\CqStatusEventArgs.cs" />
     <Compile Include="Cqp\Model\FriendsInfo.cs" />
     <Compile Include="Cqp\Model\GroupInfo.cs" />
     <Compile Include="Cqp\Model\GroupMemberInfo.cs" />

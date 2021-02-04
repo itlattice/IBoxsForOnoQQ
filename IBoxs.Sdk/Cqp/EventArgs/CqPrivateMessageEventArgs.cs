@@ -32,7 +32,12 @@ namespace IBoxs.Sdk.Cqp.EventArgs
 		/// 获取当前消息的消息内容
 		/// </summary>
 		public string Message { get; private set; }
-        
+
+		/// <summary>
+		/// 获取或设置一个值, 指示当前是否处理过此事件. 若此值为 True 将停止处理后续事件
+		/// </summary>
+		public bool Handler { get; set; }
+
         /// <summary>
         /// 初始化 <see cref="CqPrivateMessageEventArgs"/> 类的一个新实例
         /// </summary>

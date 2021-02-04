@@ -38,7 +38,11 @@ namespace IBoxs.Core.App
             }
             set { }
         }
-        
+        /// <summary>
+        /// 版本序列
+        /// </summary>
+        public static int AppVersionId { get; set; }
+
         public static string SDK { get; set; }
 
         /// <summary>

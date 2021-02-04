@@ -9,8 +9,13 @@ namespace IBoxs.Sdk.Cqp.EventArgs
     /// <summary>
     /// 表示添加群请求事件参数的类
     /// </summary>
-    public class CqAddGroupRequestEventArgs
+    public class CqAddGroupRequestEventArgs : CqEventArgsBase
     {
+        /// <summary>
+        /// 获取一个值, 该值表示当前事件的类型
+        /// </summary>
+        public override int Type { get { return 302; } }
+
         /// <summary>
         /// 获取当前事件触发时间
         /// </summary>
@@ -38,7 +43,12 @@ namespace IBoxs.Sdk.Cqp.EventArgs
         /// 反馈标识, 用于对该请求做响应时的标识参数
         /// </summary>
         public string ResponseFlag { get; private set; }
-        
+
+        /// <summary>
+        /// 获取或设置一个值, 指示当前是否处理过此事件. 若此值为 True 将停止处理后续事件
+        /// </summary>
+        public bool Handler { get; set; }
+
         /// <summary>
         /// 初始化 <see cref="CqAddGroupRequestEventArgs"/> 类的一个新实例
         /// </summary>

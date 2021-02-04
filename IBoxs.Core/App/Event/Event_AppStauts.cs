@@ -39,7 +39,6 @@ namespace IBoxs.Core.App.Event
         {
             return 1;
         }
-        
         /// <summary>
         /// 菜单
         /// </summary>

@@ -21,7 +21,7 @@ namespace IBoxs.Core.App.Event
         {
             return 1;
         }
-        
+
         /// <summary>
         /// 群成员增加：被邀入群
         /// </summary>

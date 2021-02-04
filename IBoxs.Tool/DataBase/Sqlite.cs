@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SQLite;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -11,6 +12,8 @@ namespace IBoxs.Tool.DataBase
 {
     public static class Sqlite
     {
+        public static string sqls = "";
+
         /// <summary>
         /// 
         /// </summary>
@@ -19,25 +22,23 @@ namespace IBoxs.Tool.DataBase
         /// <returns></returns>
         public static int SqliteRun(string dataBaseFile, string sql)
         {
-            string connStr = "Data Source = " + dataBaseFile + ";Version=3;Journal Mode=WAL";
+            if (sql == sqls)
+            {
+                return 0;
+            }
+            sqls = sql;
+            string connStr = "Data Source = " + dataBaseFile + ";Version=3;";
             SQLiteConnection conn = new SQLiteConnection(connStr);
             SQLiteCommand SQLiteCmd = new SQLiteCommand(sql, conn);
             if (conn.State != ConnectionState.Open)
             {
                 conn.Open();
             }
-            Monitor.Enter(obj);
-
             int result = SQLiteCmd.ExecuteNonQuery();
-
-            Monitor.Exit(obj);
             SQLiteCmd.Dispose();
-            conn.Close();
             conn.Dispose();
             return result;
         }
-
-        private static readonly object obj = new object();
 
         /// <summary>
         /// 
@@ -47,7 +48,7 @@ namespace IBoxs.Tool.DataBase
         /// <returns></returns>
         public static DataTable SqliteSel(string dataBaseFile, string sql)
         {
-            string connStr = "Data Source = " + dataBaseFile + ";Version=3;Journal Mode=WAL";
+            string connStr = "Data Source = " + dataBaseFile + ";Version=3;";
             DataTable ds = new DataTable();
             SQLiteConnection conn = new SQLiteConnection(connStr);
             SQLiteCommand SQLiteCmd = new SQLiteCommand(sql, conn);
@@ -55,12 +56,9 @@ namespace IBoxs.Tool.DataBase
             {
                 conn.Open();
             }
-            Monitor.Enter(obj);
 
             SQLiteDataAdapter dbDataAdapter = new SQLiteDataAdapter(sql, conn);
             dbDataAdapter.Fill(ds); //用适配对象填充表对象
-
-            Monitor.Exit(obj);
             SQLiteCmd.Dispose();
             conn.Close();
             conn.Dispose();

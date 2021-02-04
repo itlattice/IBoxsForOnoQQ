@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using IBoxs.Sdk.Cqp.EventArgs;
 using System.Data;
-using System.Windows.Forms;
+using System.Threading;
 
 namespace IBoxs.Core.App.Event
 {
@@ -18,24 +18,26 @@ namespace IBoxs.Core.App.Event
         /// <param name="e"></param>
         public static int ReceiveFriendMessage(CqPrivateMessageEventArgs e)
         {
-            Common.CqApi.SendPrivateMessage(e.RobotQQ, e.FromQQ, Common.CqApi.CqCode_At(e.FromQQ) + " 你发送了这样的消息：" + e.Message);
-            return 1;
+            Common.CqApi.SendPrivateMessage(e.RobotQQ, e.FromQQ, "你发送了这样的消息：" + e.Message);
+            return 0;
         }
+        
         /// <summary>
         /// 收到好友添加请求
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         public static int ReceiveFriendAddRequest(CqAddFriendRequestEventArgs e)
-        { 
+        {
             return 1;
         }
+
         /// <summary>
-        /// 收到转账消息
+        /// 收到好友验证回复
         /// </summary>
         /// <param name="e"></param>
         /// <returns></returns>
-        public static int ReceiveTranceAccounts(CqTransferAccountsEventArgs e)
+        public static int ReceiveAgreeFriends(CqAddFriendAgreeEventArgs e)
         {
             return 1;
         }

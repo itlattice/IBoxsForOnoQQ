@@ -7,14 +7,13 @@ using Unity;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using IBoxs.Sdk.Cqp.EventArgs;
-using System.IO;
 
 namespace IBoxs.Core.App.Core
 {
-   public class OnoQQ_Fun
+    public class OnoQQ_Fun
     {
         private static Encoding _defaultEncoding = null;
-       
+
         /// <summary>
         /// 静态构造函数, 注册依赖注入回调
         /// </summary>
@@ -27,9 +26,9 @@ namespace IBoxs.Core.App.Core
 
             // 初始化依赖注入容器
             Common.UnityContainer = new UnityContainer();
-            
+
         }
-        
+
         /// <summary>
         /// 返回 AppID 与 ApiVer, 本方法在模板运行后会根据项目名称自动填写 AppID 与 ApiVer
         /// </summary>
@@ -37,11 +36,12 @@ namespace IBoxs.Core.App.Core
         [DllExport(ExportName = "OQ_Create", CallingConvention = CallingConvention.StdCall)]
         private static string OQ_Create()
         {
-            Common.AppName = "CSharpCDKForOno";
-            Common.AppVersion = "1.0.0";
+            Common.AppName = "C#机器人SDK";
+            Common.AppVersion = "1.1.4";
+            Common.AppVersionId = 1;
             Common.Author = "IT格子";
             Common.AppDirectory = Application.StartupPath + @"\Config\" + Common.AppName;
-            Common.Description = "提供最新的C#开发ono插件SDK";
+            Common.Description = "C# SDK";
             Common.skey = "8956RTEWDFG3216598WERDF3";
             Common.SDK = "S3";
             Initialize();
@@ -50,15 +50,15 @@ namespace IBoxs.Core.App.Core
 
         private static string AppInfoHandle()
         {
-            string ret = "插件名称{"+Common.AppName+"}\r"+
-                "插件版本{"+Common.AppVersion+"}\r" +
-                "插件作者{"+Common.Author+"}\r" +
-                "插件说明{"+Common.Description+"}\r" +
-                "插件skey{"+Common.skey+"}\r" +
-                "插件sdk{"+Common.SDK+"}";
+            string ret = "插件名称{" + Common.AppName + "}\r" +
+                "插件版本{" + Common.AppVersion + "}\r" +
+                "插件作者{" + Common.Author + "}\r" +
+                "插件说明{" + Common.Description + "}\r" +
+                "插件skey{" + Common.skey + "}\r" +
+                "插件sdk{" + Common.SDK + "}";
             return ret;
         }
-        
+
         private static int Initialize()
         {
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
@@ -76,7 +76,7 @@ namespace IBoxs.Core.App.Core
         /// <param name="ClientKey">登录网页服务用的秘钥</param>
         /// <returns></returns>
         [DllExport(ExportName = "OQ_Message", CallingConvention = CallingConvention.StdCall)]
-        private static int OQ_Message(string qq,int type,string teamsg,string cookie,string session,string ClientKey)
+        private static int OQ_Message(string qq, int type, string teamsg, string cookie, string session, string ClientKey)
         {
             return 1;
         }
@@ -99,20 +99,20 @@ namespace IBoxs.Core.App.Core
         [DllExport(ExportName = "OQ_Event", CallingConvention = CallingConvention.StdCall)]
         public static int OQ_Event(string micqq, int type, int lowtype, string from, string fromqq, string bqq, string msg, string MsgNum, string msgID, string teamsg, string json, int note)
         {
+            if (type == 1)
+            {
+                // Common.CqApi.GetMemberList(micqq, "901224469");
+            }
             int ret = 1;
             switch (type)
             {
+                case 1101: ret = Event.Event_AppMain.CqAppEnable(); break;
                 case 12000: ret = Event.Event_AppMain.CqStartup(); break;
                 case 12001: ret = Event.Event_AppMain.CqAppEnable(); break;
                 case 12002: ret = Event.Event_AppMain.CqAppDisable(); break;
             }
 
-            if (type > 1100 && type < 1110)
-            {
-                CqQQStuatsChangeEventArgs e = new CqQQStuatsChangeEventArgs(Convert.ToInt64(micqq), type);
-                ret = Event.Event_QQStauts.LoginSucess(e);
-            }
-            else if (type < 0)  //未定义事件
+            if (type < 0)  //未定义事件
             {
 
             }
@@ -131,15 +131,25 @@ namespace IBoxs.Core.App.Core
                 CqGroupPrivateMessageEventArgs e = new CqGroupPrivateMessageEventArgs(msgID, MsgNum, Convert.ToInt64(micqq), Convert.ToInt64(from), Convert.ToInt64(fromqq), msg);
                 ret = Event.Event_Group.ReceiveGroupPrivateMessage(e);
             }
-            else if (type == 6)  //收到转账消息
-            {
-                CqTransferAccountsEventArgs e = new CqTransferAccountsEventArgs(Convert.ToInt64(micqq), Convert.ToInt64(from), lowtype, msg);
-                ret = Event.Event_Private.ReceiveTranceAccounts(e);
-            }
             else if (type == 101)  //收到好友申请
             {
                 CqAddFriendRequestEventArgs e = new CqAddFriendRequestEventArgs(DateTime.Now, Convert.ToInt64(micqq), Convert.ToInt64(from), msg, teamsg);
                 ret = Event.Event_Private.ReceiveFriendAddRequest(e);
+            }
+            else if (type == 102)   //被同意加为好友
+            {
+                CqAddFriendAgreeEventArgs e = new CqAddFriendAgreeEventArgs(DateTime.Now, true, Convert.ToInt64(micqq), Convert.ToInt64(from));
+                ret = Event.Event_Private.ReceiveAgreeFriends(e);
+            }
+            else if (type == 103)   //被拒绝加为好友
+            {
+                CqAddFriendAgreeEventArgs e = new CqAddFriendAgreeEventArgs(DateTime.Now, false, Convert.ToInt64(micqq), Convert.ToInt64(from));
+                ret = Event.Event_Private.ReceiveAgreeFriends(e);
+            }
+            else if (type == 112)   //已成功加为好友
+            {
+                CqAddFriendAgreeEventArgs e = new CqAddFriendAgreeEventArgs(DateTime.Now, true, Convert.ToInt64(micqq), Convert.ToInt64(from));
+                ret = Event.Event_Private.ReceiveAgreeFriends(e);
             }
             else if (type == 202)  //群成员被移除
             {
@@ -161,7 +171,7 @@ namespace IBoxs.Core.App.Core
                 CqAddGroupRequestEventArgs e = new CqAddGroupRequestEventArgs(DateTime.Now, Convert.ToInt64(from), Convert.ToInt64(micqq), Convert.ToInt64(fromqq), msg, teamsg);
                 ret = Event.Event_Group.ReceiveAddGroupRequest(e);
             }
-            else if (type == 214)  //机器人被邀请事件
+            else if (type == 214)
             {
                 CqAddGroupRequestEventArgs e = new CqAddGroupRequestEventArgs(DateTime.Now, Convert.ToInt64(from), Convert.ToInt64(micqq), Convert.ToInt64(fromqq), msg, teamsg);
                 ret = Event.Event_Group.ReceiveAddGroupBeInvitee(e);
@@ -193,7 +203,7 @@ namespace IBoxs.Core.App.Core
             Event.Event_AppMain.CqAppDisable();
             return 0;
         }
-        
+
         /// <summary>
         /// 全局异常捕获, 用于捕获开发者未处理的异常, 此异常将回弹至酷Q进行处理
         /// </summary>
@@ -204,8 +214,8 @@ namespace IBoxs.Core.App.Core
             Exception ex = e.ExceptionObject as Exception;
             if (ex != null)
             {
-                Common.CqApi.OutLog(ex.ToString());
+                Common.CqApi.OutPutLog(ex.ToString());
             }
         }
-}
+    }
 }

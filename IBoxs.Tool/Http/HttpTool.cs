@@ -63,7 +63,7 @@ namespace IBoxs.Tool.Http
         {
             try
             {
-                string url = "https://www.baidu.com";
+                string url = "https://card.itgz8.com/DownLoad.php";
                 HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
                 request.Method = "GET";
                 request.ContentType = "text/html;charset=UTF-8";
@@ -153,7 +153,7 @@ namespace IBoxs.Tool.Http
         /// <param name="postData"></param>
         /// <param name="cc"></param>
         /// <returns></returns>
-        public static string CPost(string url, string postData, CookieContainer cc)
+        public static string CPost(string url, string postData, CookieCollection cc)
         {
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
             request.Method = "POST";
@@ -163,7 +163,7 @@ namespace IBoxs.Tool.Http
             request.ProtocolVersion = HttpVersion.Version11;
             request.AllowAutoRedirect = true;
             request.ContentLength = byteArray.Length;
-            request.CookieContainer=cc;
+            request.CookieContainer.Add(cc);
             Stream dataStream = request.GetRequestStream();
             dataStream.Write(byteArray, 0, byteArray.Length);
             dataStream.Close();

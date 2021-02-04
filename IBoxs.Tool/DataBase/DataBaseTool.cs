@@ -10,6 +10,11 @@ namespace IBoxs.Tool.DataBase
 {
     public static class DataBaseTool
     {
+        /// <summary>
+        /// 将json数组转为datatable
+        /// </summary>
+        /// <param name="json"></param>
+        /// <returns></returns>
         public static DataTable ToDataTable(string json)
         {
             return JsonConvert.DeserializeObject<DataTable>(json);
