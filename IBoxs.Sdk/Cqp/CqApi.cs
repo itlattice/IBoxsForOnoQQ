@@ -465,6 +465,11 @@ namespace IBoxs.Sdk.Cqp
             return 1;
         }
 
+        public void SendPrivateMsgJson(string message)
+        {
+            CQP.Api_SendJSON("2812695303", 1, 1,String.Empty, "1615667720", message);
+        }
+
         #endregion
     }
 }

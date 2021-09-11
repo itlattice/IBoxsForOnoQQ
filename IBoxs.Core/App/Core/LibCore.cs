@@ -36,7 +36,11 @@ namespace IBoxs.Core.App.Core
         [DllExport(ExportName = "OQ_Create", CallingConvention = CallingConvention.StdCall)]
         private static string OQ_Create()
         {
-            Common.AppName = "C#机器人SDK";
+            /* 打个小广告：
+             * 1.格子吧一站式软件授权服务系统：https://auth.itgz8.com
+             * 2.为您提供插件收费、授权管理、卡密授权一站式服务
+             */
+            Common.AppName = "C# For SDK";
             Common.AppVersion = "1.1.4";
             Common.AppVersionId = 1;
             Common.Author = "IT格子";

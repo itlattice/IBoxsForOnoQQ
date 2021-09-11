@@ -46,6 +46,8 @@ namespace IBoxs.Core.App.Event
         /// <param name="e"></param>
         public static int CallMenu()
         {
+            Form1 f = new Form1();
+            f.Show();
             return 1;
         }
     }
